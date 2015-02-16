@@ -1,1 +1,1 @@
-Source code for the Tah Android App will be hosted here
+Source code for the Tah Android App
