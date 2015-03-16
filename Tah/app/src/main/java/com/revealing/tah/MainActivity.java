@@ -1,5 +1,6 @@
 package com.revealing.tah;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -14,6 +15,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -47,6 +49,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mDeviceList= (ListView) findViewById(R.id.listView);
         mHandler = new Handler();
+
+
+        ActionBar actionBar=getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //init bluetooth adapter
         final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);
@@ -251,5 +257,21 @@ public class MainActivity extends Activity {
         public void clear() {
             mLeDevices.clear();
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+
+        finish();
+            break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

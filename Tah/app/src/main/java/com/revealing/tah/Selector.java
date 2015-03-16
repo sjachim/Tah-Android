@@ -1,5 +1,6 @@
 package com.revealing.tah;
 
+import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import bleservice.BluetoothLeService;
 import util.Constant;
@@ -51,7 +54,8 @@ public class Selector extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selector_layout);
         mConnectionStatus= (TextView) findViewById(R.id.txtconnectionstatus);
-
+        ActionBar actionBar=getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         if(intent!=null){
             mDeviceName = intent.getStringExtra(Constant.EXTRAS_DEVICE_NAME);
@@ -83,6 +87,20 @@ public class Selector extends FragmentActivity {
         unregisterReceiver(mGattUpdateReceiver);
     }
 
+//write data method of main activity
+    public boolean writeData(String value) {
+        if(mConnected) {
+         try {
+        return mBluetoothLeService.writeCharacteristic(Constant.ServiceUid, Constant.CharaUid, value);
+            } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+        }
+        } else {
+    Toast.makeText(getApplicationContext(),"Please check device connection..",Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
 
     private static IntentFilter makeGattUpdateIntentFilter() {
         final IntentFilter intentFilter = new IntentFilter();
@@ -142,5 +160,25 @@ public class Selector extends FragmentActivity {
         fragment.setArguments(bundle);
         fragmentTransaction.replace(android.R.id.content, fragment);
         fragmentTransaction.commit();
+    }
+    //actionbar home click
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+
+               onBackPressed();
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
