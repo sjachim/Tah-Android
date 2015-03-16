@@ -51,8 +51,8 @@ public class MainActivity extends Activity {
         mHandler = new Handler();
 
 
-        ActionBar actionBar=getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        ActionBar actionBar=getActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
 
         //init bluetooth adapter
         final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);

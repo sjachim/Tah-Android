@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:actionBarSize"
+
+    android:background="#d50000">
+
+    <ImageView
+        android:id="@+id/view_actionbar_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="5dp"/>
+
+    <ImageView
+        android:id="@+id/view_actionbar_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_preferences"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/view_actionbar_first"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/view_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tah"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/shapes"
+        android:layout_gravity="left|top"
+        android:layout_below="@+id/view_actionbar_first"
+        android:layout_alignParentStart="true"></FrameLayout>
+</RelativeLayout>

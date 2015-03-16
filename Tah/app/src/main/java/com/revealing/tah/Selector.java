@@ -54,8 +54,8 @@ public class Selector extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.selector_layout);
         mConnectionStatus= (TextView) findViewById(R.id.txtconnectionstatus);
-        ActionBar actionBar=getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        ActionBar actionBar=getActionBar();
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         if(intent!=null){
             mDeviceName = intent.getStringExtra(Constant.EXTRAS_DEVICE_NAME);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,7 @@ public class IoCantrolFragment extends Fragment{
 
     @Nullable
     Context context;
-    Switch mSwD8;
+    SwitchCompat mSwD13;
     private String mDeviceName;
     private String mDeviceAddress;
     private BluetoothLeService mBluetoothLeService;
@@ -36,15 +37,15 @@ public class IoCantrolFragment extends Fragment{
         View view = inflater.inflate(R.layout.iocantrol, container, false);
         mDeviceName=(getArguments().getString(Constant.EXTRAS_DEVICE_NAME));
         mDeviceAddress=(getArguments().getString(Constant.EXTRAS_DEVICE_ADDRESS));
-        mSwD8= (Switch) view.findViewById(R.id.switch1);
+        mSwD13= (SwitchCompat) view.findViewById(R.id.swd13);
         context=getActivity();
         //create connection with service
 
-        mSwD8.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mSwD13.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-            if(mSwD8.isChecked()){
+            if(mSwD13.isChecked()){
                 ((Selector)getActivity()).writeData("0,13,1R");
             }else{
                 ((Selector)getActivity()).writeData("0,13,0R");
