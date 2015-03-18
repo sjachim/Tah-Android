@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,16 +42,19 @@ public class MainActivity extends Activity {
     private boolean mScanning;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
-    ListView mDeviceList;
-
+    private ListView mDeviceList;
+    private TextView mTextHeader;
+    private ImageView mImgHeaderBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDeviceList= (ListView) findViewById(R.id.listView);
+        mTextHeader= (TextView) findViewById(R.id.view_actionbar_title);
+        mImgHeaderBack= (ImageView) findViewById(R.id.imghederback);
+        mImgHeaderBack.setVisibility(View.INVISIBLE);
+        mTextHeader.setText("Discover");
         mHandler = new Handler();
-
-
 //        ActionBar actionBar=getActionBar();
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 

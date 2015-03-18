@@ -28,5 +28,95 @@
         android:text="------"
         android:id="@+id/txtconnectionstatus"
         android:layout_gravity="center_horizontal|bottom" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainrelative"
+        android:gravity="center_vertical|center_horizontal"
+
+        >
+
+
+
+        <RelativeLayout android:layout_width="wrap_content"
+            android:id="@+id/relative1"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+            <util.CircularButton
+                android:id="@+id/buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/abc_ic_menu_share_mtrl_alpha"
+                android:padding="30dp"
+                />
+            <util.CircularButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:layout_alignParentEnd="true"
+                android:checked="false" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentStart="true"
+            android:id="@+id/relative3"
+            android:layout_above="@+id/relative1">
+
+            <util.CircularButton
+                android:id="@+id/butt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_delete"
+                android:padding="30dp"
+                />
+            <util.CircularButton
+                android:id="@+id/butnn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:src="@android:drawable/ic_menu_zoom"
+                android:layout_alignParentEnd="true"
+                android:checked="false" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/relative3"
+            android:layout_marginBottom="15dp"
+            android:layout_alignParentStart="true"
+            android:id="@+id/relative4">
+
+            <util.CircularButton
+                android:id="@+id/btniocantroller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_input_delete"
+                android:padding="30dp"
+                />
+            <util.CircularButton
+                android:id="@+id/btnpwcontoller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:src="@android:drawable/ic_menu_help"
+                android:layout_alignParentEnd="true"
+                android:checked="false" />
+
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
 </FrameLayout>
 </RelativeLayout>
