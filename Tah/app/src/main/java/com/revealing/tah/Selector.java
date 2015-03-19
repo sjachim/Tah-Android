@@ -43,7 +43,8 @@ public class Selector extends FragmentActivity implements FragmentManager.OnBack
     private View mViewConnectionStatus;
     private ImageView mImgHeaderBack;
     final ServiceConnection mServiceConnection = new ServiceConnection() {
-
+//chek all fragment view clickable
+//http://stackoverflow.com/questions/10389620/fragment-over-another-fragment-issue
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder service) {
             mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
@@ -91,6 +92,8 @@ public class Selector extends FragmentActivity implements FragmentManager.OnBack
     @Override
     protected void onResume() {
         super.onResume();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        System.out.println("Fragment in stack======================================================="+ fragmentManager.getBackStackEntryCount());
         registerReceiver(mGattUpdateReceiver, makeGattUpdateIntentFilter());
         if (mBluetoothLeService != null) {
             final boolean result = mBluetoothLeService.connect(mDeviceAddress);
@@ -243,7 +246,7 @@ mTextHeader.setText(headerText);
     public void onClick(View v) {
     switch (v.getId()){
     case R.id.btnpwcontoller:
-        changeFragment(new MenuFragment(),"PWM Control");
+        changeFragment(new PwmControlFragment(),"PWM Control");
         break;
     case R.id.btniocantroller:
         changeFragment(new IoCantrolFragment(),"IO Control");
@@ -253,4 +256,21 @@ mTextHeader.setText(headerText);
         break;
     }
     }
+    //method to clear fragment
+    /**
+     * Function to clear fragment backstack but one
+     */
+    public void clearFragmentBackStack() {
+
+        int i = fragmentManager.getBackStackEntryCount();
+        for (int j = 0; j < i - 1; j++) {
+            fragmentManager.popBackStackImmediate();
+        }
+    }
+
+//    FragmentManager fm = getSupportFragmentManager();
+//    int count = fm.getBackStackEntryCount();
+//    for(int i = 0; i < count; ++i) {
+//        fm.popBackStackImmediate();
+//    }
 }
