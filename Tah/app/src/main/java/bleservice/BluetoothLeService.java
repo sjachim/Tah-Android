@@ -290,8 +290,9 @@ public class BluetoothLeService extends Service {
         }
 //        BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString("FFE0"));
 //        BluetoothGattCharacteristic  characteristic =mBluetoothGattService.getCharacteristic(UUID.fromString("FFE1"));
-        System.out.println("serviceuid==="+servicuid);
-        System.out.println("charchtersticsuid==="+characteruid);
+
+//        System.out.println("serviceuid==="+servicuid);
+//        System.out.println("charchtersticsuid==="+characteruid);
 
         BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(servicuid));
         BluetoothGattCharacteristic  characteristic =mBluetoothGattService.getCharacteristic(UUID.fromString(characteruid));
