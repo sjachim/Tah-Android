@@ -1,24 +1,14 @@
 package com.revealing.tah;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.Switch;
-
-
-import bleservice.BluetoothLeService;
-import util.Constant;
 
 /**
  * Created by shail on 12/03/15.
@@ -81,86 +71,86 @@ public class IoCantrolFragment extends Fragment implements CompoundButton.OnChec
         switch (buttonView.getId()){
             case R.id.swd13:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,13,1R");
+                    ((Selector)getActivity()).writeData("0,13,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,13,0R");
+                    ((Selector)getActivity()).writeData("0,13,0R", false);
                 }
                 break;
             case R.id.swd12:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,12,1R");
+                    ((Selector)getActivity()).writeData("0,12,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,12,0R");
+                    ((Selector)getActivity()).writeData("0,12,0R", false);
                 }
                 break;
             case R.id.swd11:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,11,1R");
+                    ((Selector)getActivity()).writeData("0,11,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,11,0R");
+                    ((Selector)getActivity()).writeData("0,11,0R", false);
                 }
                 break;
             case R.id.swd10:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,10,1R");
+                    ((Selector)getActivity()).writeData("0,10,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,10,0R");
+                    ((Selector)getActivity()).writeData("0,10,0R", false);
                 }
                 break;
             case R.id.swd9:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,9,1R");
+                    ((Selector)getActivity()).writeData("0,9,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,9,0R");
+                    ((Selector)getActivity()).writeData("0,9,0R", false);
                 }
                 break;
             case R.id.swd8:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,8,1R");
+                    ((Selector)getActivity()).writeData("0,8,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,8,0R");
+                    ((Selector)getActivity()).writeData("0,8,0R", false);
                 }
                 break;
             case R.id.swd7:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,7,1R");
+                    ((Selector)getActivity()).writeData("0,7,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,7,0R");
+                    ((Selector)getActivity()).writeData("0,7,0R", false);
                 }
                 break;
             case R.id.swd6:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,6,1R");
+                    ((Selector)getActivity()).writeData("0,6,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,6,0R");
+                    ((Selector)getActivity()).writeData("0,6,0R", false);
                 }
                 break;
             case R.id.swd5:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,5,1R");
+                    ((Selector)getActivity()).writeData("0,5,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,5,0R");
+                    ((Selector)getActivity()).writeData("0,5,0R", false);
                 }
                 break;
             case R.id.swd4:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,4,1R");
+                    ((Selector)getActivity()).writeData("0,4,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,4,0R");
+                    ((Selector)getActivity()).writeData("0,4,0R", false);
                 }
                 break;
             case R.id.swd3:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,3,1R");
+                    ((Selector)getActivity()).writeData("0,3,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,3,0R");
+                    ((Selector)getActivity()).writeData("0,3,0R", false);
                 }
                 break;
             case R.id.swd2:
                 if(isChecked){
-                    ((Selector)getActivity()).writeData("0,2,1R");
+                    ((Selector)getActivity()).writeData("0,2,1R", false);
                 }else{
-                    ((Selector)getActivity()).writeData("0,2,0R");
+                    ((Selector)getActivity()).writeData("0,2,0R", false);
                 }
                 break;
 

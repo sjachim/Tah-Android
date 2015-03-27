@@ -283,28 +283,17 @@ public class BluetoothLeService extends Service {
     }
 /** new method to write data mar 9 2015 **/
 
-    public boolean writeCharacteristic(String servicuid,String characteruid,String data){
+    public boolean writeCharacteristic(String servicuid,String characteruid,String data,boolean notification){
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
             return false;
         }
-//        BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString("FFE0"));
-//        BluetoothGattCharacteristic  characteristic =mBluetoothGattService.getCharacteristic(UUID.fromString("FFE1"));
 
-//        System.out.println("serviceuid==="+servicuid);
-//        System.out.println("charchtersticsuid==="+characteruid);
 
         BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(servicuid));
         BluetoothGattCharacteristic  characteristic =mBluetoothGattService.getCharacteristic(UUID.fromString(characteruid));
-
-        byte[] databyte = data.getBytes();
-
+        mBluetoothGatt.setCharacteristicNotification(characteristic, notification);
         characteristic.setValue(data);
-        //characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
-       // boolean status=mBluetoothGatt.writeCharacteristic(characteristic);
-
-      //  System.out.println("status==="+mBluetoothGatt.writeCharacteristic(characteristic));
-
         return mBluetoothGatt.writeCharacteristic(characteristic);
 
     }

@@ -9,10 +9,6 @@
         android:id="@+id/activity_actionbar"
         android:layout_height="wrap_content">
 
-        <include
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/view_actionbar" />
     </RelativeLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"

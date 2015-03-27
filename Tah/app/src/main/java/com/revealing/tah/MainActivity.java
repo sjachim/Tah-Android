@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import util.Constant;
 //http://www.andevcon.com/news/46-android-developer-libraries-by-category
 //https://github.com/snowdream/awesome-android
 //http://snowdream.github.io/awesome-android/
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LeDeviceListAdapter mLeDeviceListAdapter;
     //bluetooth things
@@ -50,13 +51,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDeviceList= (ListView) findViewById(R.id.listView);
-        mTextHeader= (TextView) findViewById(R.id.view_actionbar_title);
-        mImgHeaderBack= (ImageView) findViewById(R.id.imghederback);
-        mImgHeaderBack.setVisibility(View.INVISIBLE);
-        mTextHeader.setText("Discover");
+//        mTextHeader= (TextView) findViewById(R.id.view_actionbar_title);
+//        mImgHeaderBack= (ImageView) findViewById(R.id.imghederback);
+//        mImgHeaderBack.setVisibility(View.INVISIBLE);
+//        mTextHeader.setText("Discover");
         mHandler = new Handler();
-//        ActionBar actionBar=getActionBar();
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+        //set action bar home button
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         //init bluetooth adapter
         final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);

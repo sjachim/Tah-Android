@@ -27,7 +27,7 @@ public class PwmControlFragment extends Fragment implements SeekBar.OnSeekBarCha
 
     //anolog=max=0-255===1,13,15R
 //servo=0-180====2,13,15R set seek to mid that is mid 90
-//3,0,0R to read anolog values a0;value
+//3,0,0R to read anolog values it will return like= a0;value
     //chk alpha for low android version
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -135,7 +135,7 @@ public class PwmControlFragment extends Fragment implements SeekBar.OnSeekBarCha
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((Selector)getActivity()).writeData("1,13,"+String.valueOf(progressval)+"R"+"");
+                ((Selector)getActivity()).writeData("1,13,"+String.valueOf(progressval)+"R"+"",false);
                 img.setAlpha((float) (Float.parseFloat(String.valueOf(progressval))/255.0));
                 txtview.setText(String.valueOf(progressval));
             }

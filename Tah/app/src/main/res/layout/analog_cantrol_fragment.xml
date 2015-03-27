@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/screenback"
+    android:clickable="true"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <util.NumberProgressBar
+        android:id="@+id/anologpina1"
+        android:layout_width="wrap_content"
+        android:padding="20dp"
+        custom:progress="0"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Default"
+        android:layout_height="wrap_content" />
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar2"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        custom:progress="20"
+        android:layout_width="match_parent"
+        style="@style/NumberProgressBar_Passing_Green"
+        />
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar3"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Relax_Blue"
+        custom:progress="30"
+        android:layout_height="wrap_content" />
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar4"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Grace_Yellow"
+        custom:progress="40"
+        android:layout_height="wrap_content" />
+
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar5"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        custom:progress="50"
+        style="@style/NumberProgressBar_Warning_Red"
+        android:layout_height="wrap_content" />
+
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar6"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Funny_Orange"
+        custom:progress="60"
+        android:layout_height="wrap_content" />
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar7"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Beauty_Red"
+        custom:progress="70"
+        android:layout_height="wrap_content" />
+
+    <util.NumberProgressBar
+        android:id="@+id/numberbar8"
+        android:layout_width="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="10dp"
+        style="@style/NumberProgressBar_Twinkle_Night"
+        custom:progress="80"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/showdata"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>
