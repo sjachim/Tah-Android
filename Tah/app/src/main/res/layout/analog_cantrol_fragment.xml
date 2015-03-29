@@ -9,7 +9,7 @@
 
     android:orientation="vertical">
     <util.NumberProgressBar
-        android:id="@+id/anologpina1"
+        android:id="@+id/anologpina0"
         android:layout_width="wrap_content"
         android:padding="20dp"
         custom:progress="0"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content" />
 
     <util.NumberProgressBar
-        android:id="@+id/numberbar2"
+        android:id="@+id/anologpina1"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:layout_marginTop="10dp"
@@ -28,7 +28,7 @@
         />
 
     <util.NumberProgressBar
-        android:id="@+id/numberbar3"
+        android:id="@+id/anologpina2"
         android:layout_margin="20dp"
         android:layout_marginTop="10dp"
         style="@style/NumberProgressBar_Relax_Blue"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content" />
 
     <util.NumberProgressBar
-        android:id="@+id/numberbar4"
+        android:id="@+id/anologpina3"
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginTop="10dp"
@@ -46,7 +46,7 @@
 
 
     <util.NumberProgressBar
-        android:id="@+id/numberbar5"
+        android:id="@+id/anologpina4"
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginTop="10dp"
@@ -56,7 +56,7 @@
 
 
     <util.NumberProgressBar
-        android:id="@+id/numberbar6"
+        android:id="@+id/anologpina5"
         android:layout_width="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginTop="10dp"

@@ -6,4 +6,6 @@
     <color name="orange">#FF9900</color>
     <color name="headercolor">#303f9f</color>
     <color name="screenback">#fafafa</color>
+    <color name="buttoncolor">#2196f3</color>
+
 </resources>

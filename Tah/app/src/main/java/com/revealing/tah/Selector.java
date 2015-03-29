@@ -36,6 +36,7 @@ import java.util.List;
 import adapter.DrawerAdapter;
 import bleservice.BluetoothLeService;
 import util.Constant;
+import util.PreferenceHelper;
 
 /**
  * Created by shail on 12/03/15.
@@ -156,6 +157,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         if (mDeviceName != null && mDeviceAddress != null) {
             txtProfileName.setText(mDeviceName);
             txtDeviceAddress.setText(mDeviceAddress);
+            PreferenceHelper.storeTahName(Selector.this,mDeviceName);
         }
         //connect to service
         Intent gattServiceIntent = new Intent(Selector.this, BluetoothLeService.class);
@@ -482,6 +484,9 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                     break;
                 case 2:
                     replaceFragment(new AnalogControlFragment(), position);
+                    break;
+                case 3:
+                    replaceFragment(new SettingFragment(), position);
                     break;
             }
 

@@ -11,4 +11,7 @@ public class Constant {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
 
+//shared preferance file name
+public static String  SHARED_PREFERENCE_KEY = "Tah";
+    public static String  DEVICE_NAME = "deviceName";
 }

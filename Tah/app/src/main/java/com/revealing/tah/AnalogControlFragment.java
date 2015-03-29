@@ -28,12 +28,13 @@ public class AnalogControlFragment extends Fragment {
     private Timer timer;
     Button changeprogress;
     boolean chk = true;
-    NumberProgressBar bnp;
+    NumberProgressBar pinA0, pinA1, pinA2, pinA3, pinA4, pinA5;
     public static boolean anolgfragment = true;
     Context context;
     String[] value;
     ArrayList<String> arrayList;
     Button showdata;
+    int methodcall = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,8 +42,13 @@ public class AnalogControlFragment extends Fragment {
 //http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/
         context = getActivity();
         arrayList = new ArrayList<String>();
-        bnp = (NumberProgressBar) view.findViewById(R.id.anologpina1);
-showdata= (Button) view.findViewById(R.id.showdata);
+        pinA0 = (NumberProgressBar) view.findViewById(R.id.anologpina0);
+        pinA1 = (NumberProgressBar) view.findViewById(R.id.anologpina1);
+        pinA2 = (NumberProgressBar) view.findViewById(R.id.anologpina2);
+        pinA3 = (NumberProgressBar) view.findViewById(R.id.anologpina3);
+        pinA4 = (NumberProgressBar) view.findViewById(R.id.anologpina4);
+        pinA5 = (NumberProgressBar) view.findViewById(R.id.anologpina5);
+        showdata = (Button) view.findViewById(R.id.showdata);
 
 //        timer.schedule(new TimerTask() {
 //            @Override
@@ -50,10 +56,10 @@ showdata= (Button) view.findViewById(R.id.showdata);
 //                getActivity().runOnUiThread(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        bnp.incrementProgressBy(1);
+//                        pinA0.incrementProgressBy(1);
 //                        counter++;
 //                        if (counter == 110) {
-//                            bnp.setProgress(0);
+//                            pinA0.setProgress(0);
 //                            counter = 0;
 //
 //                        }
@@ -80,6 +86,7 @@ showdata= (Button) view.findViewById(R.id.showdata);
         showdata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                splitdata();
 
             }
         });
@@ -112,7 +119,7 @@ showdata= (Button) view.findViewById(R.id.showdata);
     }
 
     public void onArticleSelected(final String data) {
-
+        methodcall++;
         System.out.print("====recived data====" + data.toString());
 
         getActivity().runOnUiThread(new Runnable() {
@@ -130,5 +137,46 @@ showdata= (Button) view.findViewById(R.id.showdata);
         });
     }
 
+    public void splitdata() {
+
+        ((Selector) getActivity()).writeData("AT+NAMEios", false);
+        try {
+            Thread.sleep(1000);
+            ((Selector) getActivity()).writeData("AT+RESET", false);
+        } catch (InterruptedException ie) {
+            //Handle exception
+        }
+
+        //"AT+RESET"
+
+        //AT+TYPE0  to open security
+        //AT+TYPE2 to secure
+
+        //AT+PASS6digit
+
+
+//"A0:234\r\n\n41 30 3A 32 34 33 0D 0A"
+//        System.out.print("====methodcall====" + methodcall);
+//        String data[] = arrayList.get(0).split("\r");
+//        System.out.print("====index 0 data====" + data[0]);
+//        System.out.print("====index 1 data====" + data[1]);
+//        String subspit[] = data[0].split(":");
+//        System.out.print("====subsplit index 0 data====" + subspit[0]);
+//        System.out.print("====subsplit index 1 data====" + subspit[1]);
+
+
+
+
+//        System.out.print("====arrayListara   size====" + arrayList.size());
+//        for (int i = 0; i < arrayList.size(); i++) {
+//            String data[] = arrayList.get(i).split("\r");
+//
+//            String subspit[] = data[0].split(":");
+//            System.out.print("====subsplit index 0 data====" + subspit[0]);
+//            System.out.print("====subsplit index 1 data====" + subspit[1]);
+//            pinA0.setProgress(Integer.parseInt(subspit[1]));
+//        }
+
+    }
 
 }
