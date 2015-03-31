@@ -235,8 +235,8 @@ public class MainActivity extends ActionBarActivity {
             if (view == null) {
                 view = mInflator.inflate(R.layout.devicelist, null);
                 viewHolder = new ViewHolder();
-                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.dvname);
-                viewHolder.deviceName = (TextView) view.findViewById(R.id.dvid);
+//                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.dvname);
+               viewHolder.deviceName = (TextView) view.findViewById(R.id.dvname);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
@@ -252,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
                 viewHolder.deviceName.setText("Unknown Device");
 
             }
-            viewHolder.deviceAddress.setText(device.getAddress());
+            //viewHolder.deviceAddress.setText(device.getAddress());
             return view;
         }
 

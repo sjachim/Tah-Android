@@ -1,91 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/screenback"
-    android:clickable="true"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/screenback"
+    android:clickable="true"
     android:orientation="vertical">
-    <util.NumberProgressBar
-        android:id="@+id/anologpina0"
-        android:layout_width="wrap_content"
-        android:padding="20dp"
-        custom:progress="0"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Default"
-        android:layout_height="wrap_content" />
-
-    <util.NumberProgressBar
-        android:id="@+id/anologpina1"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_marginTop="10dp"
-        custom:progress="20"
-        android:layout_width="match_parent"
-        style="@style/NumberProgressBar_Passing_Green"
-        />
-
-    <util.NumberProgressBar
-        android:id="@+id/anologpina2"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Relax_Blue"
-        custom:progress="30"
-        android:layout_height="wrap_content" />
-
-    <util.NumberProgressBar
-        android:id="@+id/anologpina3"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Grace_Yellow"
-        custom:progress="40"
-        android:layout_height="wrap_content" />
 
 
-    <util.NumberProgressBar
-        android:id="@+id/anologpina4"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        custom:progress="50"
-        style="@style/NumberProgressBar_Warning_Red"
-        android:layout_height="wrap_content" />
-
-
-    <util.NumberProgressBar
-        android:id="@+id/anologpina5"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Funny_Orange"
-        custom:progress="60"
-        android:layout_height="wrap_content" />
-
-    <util.NumberProgressBar
-        android:id="@+id/numberbar7"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Beauty_Red"
-        custom:progress="70"
-        android:layout_height="wrap_content" />
-
-    <util.NumberProgressBar
-        android:id="@+id/numberbar8"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="10dp"
-        style="@style/NumberProgressBar_Twinkle_Night"
-        custom:progress="80"
-        android:layout_height="wrap_content" />
-
-    <Button
+    <RelativeLayout
+        android:id="@+id/mainrelative"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/showdata"
-        android:layout_gravity="center_horizontal" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical|center_horizontal">
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina0"
+            style="@style/NumberProgressBar_Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina1"
+            style="@style/NumberProgressBar_Passing_Green"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/anologpina0"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina2"
+            style="@style/NumberProgressBar_Relax_Blue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/anologpina1"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina3"
+            style="@style/NumberProgressBar_Grace_Yellow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/anologpina2"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina4"
+            style="@style/NumberProgressBar_Warning_Red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/anologpina3"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+
+        <util.NumberProgressBar
+            android:id="@+id/anologpina5"
+            style="@style/NumberProgressBar_Funny_Orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/anologpina4"
+            android:layout_margin="10dp"
+            android:padding="20dp"
+            custom:progress="0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A0"
+            android:id="@+id/textView8"
+            android:layout_alignTop="@+id/anologpina0"
+            android:layout_alignStart="@+id/anologpina2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A1"
+            android:id="@+id/textView9"
+            android:layout_alignTop="@+id/anologpina1"
+            android:layout_alignStart="@+id/textView8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A2"
+            android:id="@+id/textView10"
+            android:layout_alignTop="@+id/anologpina2"
+            android:layout_alignStart="@+id/anologpina2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A3"
+            android:id="@+id/textView11"
+            android:layout_alignTop="@+id/anologpina3"
+            android:layout_alignStart="@+id/anologpina3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A3"
+            android:id="@+id/textView12"
+            android:layout_alignTop="@+id/anologpina4"
+            android:layout_alignStart="@+id/anologpina4" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A5"
+            android:id="@+id/textView13"
+            android:layout_alignTop="@+id/anologpina5"
+            android:layout_alignStart="@+id/anologpina5" />
+    </RelativeLayout>
 </LinearLayout>

@@ -112,3 +112,17 @@ public class SettingFragment extends Fragment {
        // getActivity().finish();
     }
 }
+//((Selector) getActivity()).writeData("AT+NAMEios", false);
+//        try {
+//        Thread.sleep(1000);
+//        ((Selector) getActivity()).writeData("AT+RESET", false);
+//        } catch (InterruptedException ie) {
+//        //Handle exception
+//        }
+
+//"AT+RESET"
+
+//AT+TYPE0  to open security
+//AT+TYPE2 to secure
+
+//AT+PASS6digit

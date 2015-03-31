@@ -1,5 +1,6 @@
 package com.revealing.tah;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -42,7 +43,7 @@ import util.PreferenceHelper;
  * Created by shail on 12/03/15.
  */
 
-public class Selector extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener{
+public class Selector extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
     //check all fragment view clickable
 //check onBackStackChanged method
 // add ripple effect
@@ -50,7 +51,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 //https://snowdog.co/blog/getting-material-design-for-pre-lollipop-devices-with-appcompat-v21/
 //http://stackoverflow.com/questions/24008249/android-ble-read-and-write-characteristics
     //http://toastdroid.com/2014/09/22/android-bluetooth-low-energy-tutorial/
-   //http://stackoverflow.com/questions/21043997/ble-answer-after-writing-over-gatt-in-android
+    //http://stackoverflow.com/questions/21043997/ble-answer-after-writing-over-gatt-in-android
     //http://stackoverflow.com/questions/20064136/how-to-change-the-name-of-bluetooth-low-energy-device-in-android-4-3
     private String mDeviceName;
     private String mDeviceAddress;
@@ -68,6 +69,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     DrawerAdapter drawerAdapter;
     android.support.v7.app.ActionBar actionBar;
     TextView txtProfileName, txtDeviceAddress;
+    ArrayList<String> arrayList;
+    public static Context context;
     final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -90,6 +93,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainact);
+        arrayList = new ArrayList<String>();
+        context=Selector.this;
         mConnectionStatus = (TextView) findViewById(R.id.txtconnectionstatus);
         txtProfileName = (TextView) findViewById(R.id.userName);
         txtDeviceAddress = (TextView) findViewById(R.id.desc);
@@ -157,7 +162,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         if (mDeviceName != null && mDeviceAddress != null) {
             txtProfileName.setText(mDeviceName);
             txtDeviceAddress.setText(mDeviceAddress);
-            PreferenceHelper.storeTahName(Selector.this,mDeviceName);
+            PreferenceHelper.storeTahName(Selector.this, mDeviceName);
         }
         //connect to service
         Intent gattServiceIntent = new Intent(Selector.this, BluetoothLeService.class);
@@ -186,6 +191,20 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
+        mBluetoothLeService = null;
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
 
     @Override
     public void setTitle(CharSequence title) {
@@ -196,14 +215,29 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     @Override
     protected void onPause() {
         super.onPause();
-        //unregisterReceiver(mGattUpdateReceiver);
+        unregisterReceiver(mGattUpdateReceiver);
     }
 
     //write data method of main activity
     public boolean writeData(String value, boolean notification) {
         if (mConnected) {
             try {
-                return mBluetoothLeService.writeCharacteristic(Constant.ServiceUid, Constant.CharaUid, value,notification);
+                return mBluetoothLeService.writeCharacteristic(Constant.ServiceUid, Constant.CharaUid, value);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        } else {
+            // Toast.makeText(getApplicationContext(), "Please check device connection..", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    //write data with response method of main activity
+    public boolean writeDataRes(String value, boolean notification) {
+        if (mConnected) {
+            try {
+                return mBluetoothLeService.writeCharacteristicWithRes(Constant.ServiceUid, Constant.CharaUid, value, notification);
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -231,7 +265,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     //                        or notification operations.
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context,final Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
@@ -239,18 +273,38 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                 updateConnectionState(mConnected, R.string.connected, "#66bb6a");
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = false;
+                mConnected = true;
                 updateConnectionState(mConnected, R.string.disconnected, "#ef5350");
                 invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 // displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                if (AnalogControlFragment.anolgfragment){
-                    fragmentManager = getSupportFragmentManager();
-                AnalogControlFragment fragment = (AnalogControlFragment) fragmentManager.findFragmentById(R.id.content_frame);
-                fragment.onArticleSelected(intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString());
-            }
+                System.out.println("avilable here ");
+                if (AnalogControlFragment.anolgfragment) {
+                    final String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                arrayList.add(data);
+                                if (arrayList.size() >= 6) {
+                                    fragmentManager = getSupportFragmentManager();
+                                    AnalogControlFragment fragment = (AnalogControlFragment) fragmentManager.findFragmentById(R.id.content_frame);
+                                   // fragment.onArticleSelected(intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString());
+                                    fragment.splitdata(arrayList);
+
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+                    t.start();
+
+                }else{
+                    arrayList.clear();
+                }
                 // displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
             }
         }

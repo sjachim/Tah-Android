@@ -19,7 +19,7 @@ import static util.NumberProgressBar.ProgressTextVisibility.Visible;
 
 public class NumberProgressBar extends View {
 
-    private int mMaxProgress = 100;
+    private int mMaxProgress = 1024;
 
     /**
      * Current progress, can not exceed the max progress.
@@ -59,7 +59,7 @@ public class NumberProgressBar extends View {
     /**
      * The suffix of the number.
      */
-    private String mSuffix = "%";
+    private String mSuffix = "";
 
     /**
      * The prefix.
@@ -278,7 +278,7 @@ public class NumberProgressBar extends View {
 
     private void calculateDrawRectF() {
 
-        mCurrentDrawText = String.format("%d", getProgress() * 100 / getMax());
+        mCurrentDrawText = String.format("%d", getProgress() * 1024 / getMax());
         mCurrentDrawText = mPrefix + mCurrentDrawText + mSuffix;
         mDrawTextWidth = mTextPaint.measureText(mCurrentDrawText);
 

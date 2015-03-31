@@ -21,48 +21,7 @@ public class PreferenceHelper {
     }
 
 
-    public static void setSettingsToPref( String settingKey, String settingValue, Context ctx)
-    {
-        SharedPreferences.Editor prefEditor = getSharedSettings(ctx).edit();
-        prefEditor.putString(settingKey, settingValue);
-        prefEditor.commit();
-    }
 
-    public static void setSettingsToPref( String settingKey, boolean settingValue, Context ctx)
-    {
-        SharedPreferences.Editor prefEditor = getSharedSettings(ctx).edit();
-        prefEditor.putBoolean(settingKey, settingValue);
-        prefEditor.commit();
-    }
-
-    public static void setSettingsToPref( String settingKey, int settingValue, Context ctx)
-    {
-        SharedPreferences.Editor prefEditor = getSharedSettings(ctx).edit();
-        prefEditor.putInt(settingKey, settingValue);
-        prefEditor.commit();
-    }
-
-    public static String getSettingsFromPref(String settingKey, Context ctx, String defaultValue)
-    {
-        SharedPreferences sp = getSharedSettings(ctx);
-        return sp.getString(settingKey,defaultValue);
-    }
-    //automated post setting
-
-
-
-
-    public static int getSettingsFromPref(String settingKey, Context ctx, int defaultValue)
-    {
-        SharedPreferences sp = getSharedSettings(ctx);
-        return sp.getInt(settingKey,defaultValue);
-    }
-
-    public static boolean getSettingsFromPref(String settingKey, Context ctx, boolean defaultValue)
-    {
-        SharedPreferences sp = getSharedSettings(ctx);
-        return sp.getBoolean(settingKey,defaultValue);
-    }
 //store tah device name
     public static void storeTahName( Context ctx, String name)
     {
