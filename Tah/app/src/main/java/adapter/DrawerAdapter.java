@@ -55,16 +55,16 @@ public static int id=0;
         }
         TextView name= (TextView) singleRow.findViewById(R.id.nameoflist);
         RelativeLayout rowback= (RelativeLayout) singleRow.findViewById(R.id.rowbackground);
-        CircularButton mButtonPw= (CircularButton) singleRow.findViewById(R.id.imageView);
+
         name.setText(arrayList.get(position).toString());
 
         if (position == id) {
             rowback.setBackgroundColor(Color.parseColor("#e0e0e0"));
-            mButtonPw.setButtonColor(Color.parseColor("#259b24"));
+           // mButtonPw.setButtonColor(Color.parseColor("#259b24"));
             // set your color
         }else{
             rowback.setBackgroundColor(Color.parseColor("#ffffff"));
-            mButtonPw.setButtonColor(Color.parseColor("#757575"));
+           // mButtonPw.setButtonColor(Color.parseColor("#757575"));
         }
 
 

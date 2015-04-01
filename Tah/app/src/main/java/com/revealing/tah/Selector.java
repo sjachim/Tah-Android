@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -23,8 +22,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +68,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     TextView txtProfileName, txtDeviceAddress;
     ArrayList<String> arrayList;
     public static Context context;
+    public static Activity activity;
     final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -95,6 +93,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         setContentView(R.layout.mainact);
         arrayList = new ArrayList<String>();
         context=Selector.this;
+        activity=Selector.this;
         mConnectionStatus = (TextView) findViewById(R.id.txtconnectionstatus);
         txtProfileName = (TextView) findViewById(R.id.userName);
         txtDeviceAddress = (TextView) findViewById(R.id.desc);
@@ -149,8 +148,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
 
         if (savedInstanceState == null) {
-            //changeFragment(new IoCantrolFragment(), 0);
-            replaceFragment(new IoCantrolFragment(), 0);
+            changeFragment(new IoCantrolFragment(), 0);
+           // replaceFragment(new BlankFragment(), 0);
             //selectItem(0);
         }
 
@@ -280,7 +279,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                 // Show all the supported services and characteristics on the user interface.
                 // displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-                System.out.println("avilable here ");
+
                 if (AnalogControlFragment.anolgfragment) {
                     final String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
                     Thread t = new Thread(new Runnable() {
@@ -404,7 +403,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     //change fragment
     public void changeFragment(Fragment targetFragment, int position) {
-        clearFragmentBackStack();
+        //clearFragmentBackStack();
         //  mTextHeader.setText(headerText);
         if (targetFragment != null) {
             fragmentManager = getSupportFragmentManager();
@@ -497,7 +496,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
             int i = fragmentManager.getBackStackEntryCount();
-            for (int j = 0; j < i - 1; j++) {
+            for (int j = 0; j < i ; j++) {
                 fragmentManager.popBackStackImmediate();
             }
         }
@@ -541,6 +540,9 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                     break;
                 case 3:
                     replaceFragment(new SettingFragment(), position);
+                    break;
+                case 4:
+                    replaceFragment(new ShareFragment(), position);
                     break;
             }
 
