@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.revealing.tah" >
+
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,8 +34,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".Selector" android:screenOrientation="portrait"/>
-        <activity android:name=".ShareActivity" android:screenOrientation="portrait"/>
         <service android:name="bleservice.BluetoothLeService" android:enabled="true"/>
+
+        <receiver android:name="com.revealing.tah.MyBluetoothReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="BluetoothDevice.ACTION_PAIRING_REQUEST" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.bluetooth.device.action.PAIRING_REQUEST"></action>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

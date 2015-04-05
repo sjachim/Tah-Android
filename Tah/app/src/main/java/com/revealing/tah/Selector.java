@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +80,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 //                    finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            mBluetoothLeService.connect(mDeviceAddress);
+            System.out.println("=connection= "+mBluetoothLeService.connect(mDeviceAddress));
+            //mBluetoothLeService.connect(mDeviceAddress);
         }
 
         @Override
@@ -107,8 +109,10 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         List<String> stringList = new ArrayList<String>(Arrays.asList(mPlanetTitles));
-        drawerAdapter = new DrawerAdapter(Selector.this, (ArrayList<String>) stringList);
-        mDrawerList.setAdapter(drawerAdapter);
+//        drawerAdapter = new DrawerAdapter(Selector.this, (ArrayList<String>) stringList);
+//        mDrawerList.setAdapter(drawerAdapter);
+
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitles));
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -253,6 +257,8 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+
+
         return intentFilter;
     }
 

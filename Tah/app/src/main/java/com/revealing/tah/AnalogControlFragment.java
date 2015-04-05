@@ -28,15 +28,11 @@ import util.NumberProgressBar;
  * Created by shail on 25/03/15.
  */
 public class AnalogControlFragment extends Fragment {
-    private int counter = 0;
-    private Timer timer;
     NumberProgressBar pinA0, pinA1, pinA2, pinA3, pinA4, pinA5;
     public static boolean anolgfragment = true;
     Context context;
     ArrayList<String> arrayList;
     HashMap<String, Integer> demo = new HashMap<String, Integer>();
-
-    UpdateAsynk updateAsynk;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,7 +49,7 @@ public class AnalogControlFragment extends Fragment {
         pinA5 = (NumberProgressBar) view.findViewById(R.id.anologpina5);
 
 
-         ((Selector) getActivity()).writeDataRes("3,0,0R", true);
+        //((Selector) getActivity()).writeDataRes("3,0,0R", true);
 
         return view;
     }
@@ -61,8 +57,8 @@ public class AnalogControlFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       // ((Selector) getActivity()).writeDataRes("3,0,0R", true);
-        //anolgfragment=true;
+        ((Selector) getActivity()).writeDataRes("3,0,0R", true);
+        anolgfragment = true;
     }
 
     @Override
@@ -75,17 +71,8 @@ public class AnalogControlFragment extends Fragment {
     public void onStop() {
         super.onStop();
         anolgfragment = false;
-//        try {
-//            if (updateAsynk!=null && updateAsynk.isCancelled()) {
-//                updateAsynk.cancel(true);
-//                updateAsynk=null;
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
-//        t.stop();
-//        timer.cancel();
+        //t.stop();
+        //timer.cancel();
 
     }
 
@@ -97,153 +84,66 @@ public class AnalogControlFragment extends Fragment {
         //       timer.cancel();
     }
 
-    public void onArticleSelected(final String data) {
-        System.out.print("====recived data====" + data.toString());
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-
-                    arrayList.add(data);
-                    if (arrayList.size() >= 6) {
-                        // splitdata();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        t.start();
-
-
-    }
-
     public void splitdata(final ArrayList<String> arraydata) {
         //"A0:234\r\n\n41 30 3A 32 34 33 0D 0A"
-        // System.out.println("====arrayListara   size====" + arrayList.size());
+        System.out.println("====arrayListara   size====" + arraydata.size());
 
-//        updateAsynk = new UpdateAsynk();
-//        updateAsynk.execute(arraydata);
-
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                for (int i = 0; i < arraydata.size(); i++) {
-                    String data[] = arraydata.get(i).split("\r");
-                    String subspit[] = data[0].split(":");
-                    demo.put(subspit[0].toString(), Integer.parseInt(subspit[1]));
-                    subspit = null;
-                    data = null;
-                }
-
-                arraydata.clear();
-                uiUpdate(demo);
-                try {
-
-                    Thread.sleep(1500);
-                    ((Selector) getActivity()).writeDataRes("3,0,0R", true);
-
-                } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        t.start();
-    }
-
-    public void uiUpdate(final HashMap<String, Integer> valueSet) {
-
-
-       Selector.activity.runOnUiThread(new Runnable() {
-            @Override
-
-            public void run() {
-                try {
-
-                    pinA0.setProgress(valueSet.get("A0"));
-                    pinA1.setProgress(valueSet.get("A1"));
-                    pinA2.setProgress(valueSet.get("A2"));
-                    pinA3.setProgress(valueSet.get("A3"));
-                    pinA4.setProgress(valueSet.get("A4"));
-                    pinA5.setProgress(valueSet.get("A5"));
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-    }
-
-    public void updateUi(final HashMap<String, Integer> valueSet) {
-        // System.out.println("====hashmapsize====" + demo.size());
-
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Selector.activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-//                        pinA0.setProgress(valueSet.get("A0"));
-//                        pinA1.setProgress(valueSet.get("A1"));
-//                        pinA2.setProgress(valueSet.get("A2"));
-//                        pinA3.setProgress(valueSet.get("A3"));
-//                        pinA4.setProgress(valueSet.get("A4"));
-//                        pinA5.setProgress(valueSet.get("A5"));
-                        ((Selector) getActivity()).writeDataRes("3,0,0R", true);
-                        counter++;
-                        if (counter >= 5) {
-
-                        }
-
-                    }
-                });
-            }
-        }, 1000, 1000);
-    }
-
-    class UpdateAsynk extends AsyncTask<ArrayList<String>, Void, Void> {
-
-        @Override
-        protected Void doInBackground(ArrayList<String>... arrayLists) {
-
-            try {
-                if (!isCancelled()) {
-
-                    ArrayList<String> array = arrayLists[0];
-                    for (int i = 0; i < array.size(); i++) {
-                        String[] data = array.get(i).split("\r");
+        try {
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    for (int i = 0; i < arraydata.size(); i++) {
+                        String data[] = arraydata.get(i).split("\r");
                         String subspit[] = data[0].split(":");
                         demo.put(subspit[0].toString(), Integer.parseInt(subspit[1]));
                         subspit = null;
                         data = null;
                     }
+
+                    arraydata.clear();
+                    uiUpdate(demo);
                     try {
-                        array.clear();
-                        uiUpdate(demo);
+
                         Thread.sleep(1500);
                         ((Selector) getActivity()).writeDataRes("3,0,0R", true);
 
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                 }
-            } catch (Exception e) {
-                cancel(true);
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            });
+            t.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    public void uiUpdate(final HashMap<String, Integer> valueSet) {
+        System.out.println("====valueSet   size====" + valueSet.size());
+        if (!valueSet.isEmpty()) {
+            Selector.activity.runOnUiThread(new Runnable() {
+                @Override
+
+                public void run() {
+                    try {
+
+                        pinA0.setProgress(valueSet.get("A0"));
+                        pinA1.setProgress(valueSet.get("A1"));
+                        pinA2.setProgress(valueSet.get("A2"));
+                        pinA3.setProgress(valueSet.get("A3"));
+                        pinA4.setProgress(valueSet.get("A4"));
+                        pinA5.setProgress(valueSet.get("A5"));
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+    }
+
 
 }

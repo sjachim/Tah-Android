@@ -126,3 +126,11 @@ public class SettingFragment extends Fragment {
 //AT+TYPE2 to secure
 
 //AT+PASS6digit
+
+
+//with type1
+//onClientConnectionState() - status=22 clientIf=5 device=78:A5:04:61:29:E4
+
+
+//in open state
+//onClientConnectionState() - status=0 clientIf=5 device=78:A5:04:61:29:E4

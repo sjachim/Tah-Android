@@ -31,6 +31,7 @@ import social.FacebookError;
 import social.SessionEvents;
 import social.SessionStore;
 import social.Util;
+import util.Utils;
 
 /**
  * Created by shail on 01/04/15.
@@ -55,19 +56,21 @@ public class ShareFragment extends Fragment {
         btnFbShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-
-
-                    mFacebook = new Facebook(APP_ID);
-                    if (!mFacebook.isSessionValid()) {
-                        //					LoginFBtask btask=new LoginFBtask();
-                        //					btask.execute("");
-                        fbLogin();
-                    } else {
-                        postToFacebook("http://Google.com", "demo", "demo");
+                if (Utils.haveNetworkConnection(getActivity())) {
+                    try {
+                        mFacebook = new Facebook(APP_ID);
+                        if (!mFacebook.isSessionValid()) {
+                            //					LoginFBtask btask=new LoginFBtask();
+                            //					btask.execute("");
+                            fbLogin();
+                        } else {
+                            postToFacebook("http://Google.com", "demo", "demo");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                }else{
+                    Toast.makeText(getActivity(),"Please check internet connection...",Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -75,41 +78,17 @@ public class ShareFragment extends Fragment {
         btnTwShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               shareTwitter();
+                if(Utils.haveNetworkConnection(getActivity())) {
+                    shareTwitter();
+                }else{
+                    Toast.makeText(getActivity(),"Please check internet connection...",Toast.LENGTH_SHORT);
+                }
                 //System.out.print("key key=="+printKeyHash(Selector.activity));
             }
         });
         return view;
     }
 
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.share_fragment);
-//        share= (Button) findViewById(R.id.fbshare);
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//        share.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //               System.out.println("keyhash==="+printKeyHash(Selector.activity));
-//                try{
-//
-//
-//                    mFacebook   = new Facebook(APP_ID);
-//                    if(!mFacebook.isSessionValid()){
-//                        //					LoginFBtask btask=new LoginFBtask();
-//                        //					btask.execute("");
-//                        fbLogin();
-//                    }else{
-//                        postToFacebook("http://Google.com","demo","demo");
-//                    }
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
 
     public final class LoginDialogListener implements Facebook.DialogListener {
         public void onComplete(Bundle values) {

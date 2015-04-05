@@ -58,8 +58,7 @@ public class MainActivity extends ActionBarActivity {
         mHandler = new Handler();
         //set action bar home button
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
+        actionBar.setDisplayHomeAsUpEnabled(false);
 
         //init bluetooth adapter
         final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);
@@ -103,6 +102,7 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(MainActivity.this,""+device.getName(),Toast.LENGTH_LONG).show();
 
                 if (device == null) return;
+                //device.createBond();
                 final Intent intent = new Intent(MainActivity.this, Selector.class);
                 intent.putExtra(Constant.EXTRAS_DEVICE_NAME, device.getName());
                 intent.putExtra(Constant.EXTRAS_DEVICE_ADDRESS, device.getAddress());
