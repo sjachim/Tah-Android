@@ -1,6 +1,7 @@
 package com.revealing.tah;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.res.Configuration;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -28,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,18 +45,18 @@ import util.PreferenceHelper;
  */
 
 public class Selector extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
-    //check all fragment view clickable
+//check all fragment view clickable
 //check onBackStackChanged method
 // add ripple effect
 //http://stackoverflow.com/questions/10389620/fragment-over-another-fragment-issue
 //https://snowdog.co/blog/getting-material-design-for-pre-lollipop-devices-with-appcompat-v21/
 //http://stackoverflow.com/questions/24008249/android-ble-read-and-write-characteristics
-    //http://toastdroid.com/2014/09/22/android-bluetooth-low-energy-tutorial/
-    //http://stackoverflow.com/questions/21043997/ble-answer-after-writing-over-gatt-in-android
-    //http://stackoverflow.com/questions/20064136/how-to-change-the-name-of-bluetooth-low-energy-device-in-android-4-3
+//http://toastdroid.com/2014/09/22/android-bluetooth-low-energy-tutorial/
+//http://stackoverflow.com/questions/21043997/ble-answer-after-writing-over-gatt-in-android
+//http://stackoverflow.com/questions/20064136/how-to-change-the-name-of-bluetooth-low-energy-device-in-android-4-3
     private String mDeviceName;
     private String mDeviceAddress;
-    TextView mConnectionStatus;
+    View mConnectionStatus;
     private boolean mConnected = false;
     private FragmentManager fragmentManager;
     private BluetoothLeService mBluetoothLeService;
@@ -80,7 +83,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 //                    finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            System.out.println("=connection= "+mBluetoothLeService.connect(mDeviceAddress));
+            System.out.println("=connection= " + mBluetoothLeService.connect(mDeviceAddress));
             //mBluetoothLeService.connect(mDeviceAddress);
         }
 
@@ -94,9 +97,9 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainact);
         arrayList = new ArrayList<String>();
-        context=Selector.this;
-        activity=Selector.this;
-        mConnectionStatus = (TextView) findViewById(R.id.txtconnectionstatus);
+        context = Selector.this;
+        activity = Selector.this;
+        mConnectionStatus = (View) findViewById(R.id.connectionstatus);
         txtProfileName = (TextView) findViewById(R.id.userName);
         txtDeviceAddress = (TextView) findViewById(R.id.desc);
 // new changes for action bar and drawer
@@ -112,7 +115,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 //        drawerAdapter = new DrawerAdapter(Selector.this, (ArrayList<String>) stringList);
 //        mDrawerList.setAdapter(drawerAdapter);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitles));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
         //mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -140,12 +143,12 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         ) {
             public void onDrawerClosed(View view) {
                 actionBar.setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+               // invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             public void onDrawerOpened(View drawerView) {
                 actionBar.setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+               // invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -153,7 +156,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
         if (savedInstanceState == null) {
             changeFragment(new IoCantrolFragment(), 0);
-           // replaceFragment(new BlankFragment(), 0);
+            // replaceFragment(new BlankFragment(), 0);
             //selectItem(0);
         }
 
@@ -170,18 +173,24 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         //connect to service
         Intent gattServiceIntent = new Intent(Selector.this, BluetoothLeService.class);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
-
-        //setFragment(new MenuFragment());
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+    private void unpairDevice(BluetoothDevice device) {
+        try {
+            Method method = device.getClass().getMethod("removeBond", (Class[]) null);
+            method.invoke(device, (Object[]) null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_main, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     @Override
     protected void onResume() {
@@ -194,6 +203,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -223,7 +233,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     //write data method of main activity
     public boolean writeData(String value, boolean notification) {
-        if (mConnected) {
+        if (true) {
             try {
                 return mBluetoothLeService.writeCharacteristic(Constant.ServiceUid, Constant.CharaUid, value);
             } catch (Exception e) {
@@ -238,7 +248,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
     //write data with response method of main activity
     public boolean writeDataRes(String value, boolean notification) {
-        if (mConnected) {
+        if (true) {
             try {
                 return mBluetoothLeService.writeCharacteristicWithRes(Constant.ServiceUid, Constant.CharaUid, value, notification);
             } catch (Exception e) {
@@ -270,17 +280,28 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     //                        or notification operations.
     private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context,final Intent intent) {
+        public void onReceive(Context context, final Intent intent) {
             final String action = intent.getAction();
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
-
-                updateConnectionState(mConnected, R.string.connected, "#66bb6a");
-                invalidateOptionsMenu();
+                updateConnectionState(mConnected);
+                if (IoCantrolFragment.screenVisible) {
+                    fragmentManager = getSupportFragmentManager();
+                    IoCantrolFragment fragment = (IoCantrolFragment) fragmentManager.findFragmentById(R.id.content_frame);
+                    fragment.ledOnOff(false);
+                }
+                //invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_DISCONNECTED.equals(action)) {
-                mConnected = true;
-                updateConnectionState(mConnected, R.string.disconnected, "#ef5350");
-                invalidateOptionsMenu();
+                mConnected = false;
+                if (BluetoothLeService.sleepWakeup) {
+                    updateConnectionState(mConnected);
+                    if (IoCantrolFragment.screenVisible) {
+                        fragmentManager = getSupportFragmentManager();
+                        IoCantrolFragment fragment = (IoCantrolFragment) fragmentManager.findFragmentById(R.id.content_frame);
+                        fragment.ledOnOff(true);
+                    }
+                }
+                //invalidateOptionsMenu();
             } else if (BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED.equals(action)) {
                 // Show all the supported services and characteristics on the user interface.
                 // displayGattServices(mBluetoothLeService.getSupportedGattServices());
@@ -295,7 +316,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                                 if (arrayList.size() >= 6) {
                                     fragmentManager = getSupportFragmentManager();
                                     AnalogControlFragment fragment = (AnalogControlFragment) fragmentManager.findFragmentById(R.id.content_frame);
-                                   // fragment.onArticleSelected(intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString());
+                                    // fragment.onArticleSelected(intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString());
                                     fragment.splitdata(arrayList);
 
                                 }
@@ -307,7 +328,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
                     t.start();
 
-                }else{
+                } else {
                     arrayList.clear();
                 }
                 // displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
@@ -316,21 +337,17 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     };
 
     //set status of connection using UI Thread
-    private void updateConnectionState(final boolean connectStat, final int resourceId, final String color) {
+    private void updateConnectionState(final boolean connectStat) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
                 if (!connectStat) {
-//                    mButtonIoController.setButtonColor(Color.parseColor("#b71c1c"));
-//                    mButtonPw.setButtonColor(Color.parseColor("#b71c1c"));
+                    mConnectionStatus.setBackgroundColor(Color.parseColor("#FF530D"));
                     Toast.makeText(getApplicationContext(), "Disconnect  Tah", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "connected to Tah", Toast.LENGTH_SHORT).show();
-//                    ColorDrawable cd = new ColorDrawable(0xFFFF6666);
-//                    actionBar.setBackgroundDrawable(cd);
-//                mViewConnectionStatus.setBackgroundColor(Color.parseColor(color));
-//                mConnectionStatus.setText(resourceId);
+                    mConnectionStatus.setBackgroundColor(Color.parseColor("#00e676"));
                 }
             }
         });
@@ -351,7 +368,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
                 try {
                     // Thread will sleep for 1 seconds
-                    sleep(1 * 1000);
+                    sleep(1 * 500);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -465,14 +482,13 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
 
-        System.out.println("==item===" + item);
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle action buttons
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Toast.makeText(getApplicationContext(), "Setting option", Toast.LENGTH_SHORT).show();
+                Selector.this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -502,11 +518,11 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
             int i = fragmentManager.getBackStackEntryCount();
-            for (int j = 0; j < i ; j++) {
+            for (int j = 0; j < i; j++) {
                 fragmentManager.popBackStackImmediate();
             }
         }
-        System.out.println("Fragment in stack=======================================================" + fragmentManager.getBackStackEntryCount());
+
     }
 
     // if this method not override action home icon not changed (i.e menu or ic_drawer icon instead of home(back) icon)
@@ -534,11 +550,9 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
             switch (position) {
                 case 0:
-                    //changeFragment(new IoCantrolFragment(), position);
                     replaceFragment(new IoCantrolFragment(), position);
                     break;
                 case 1:
-                    //changeFragment(new PwmControlFragment(), position);
                     replaceFragment(new PwmControlFragment(), position);
                     break;
                 case 2:
@@ -555,9 +569,4 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         }
     }
 
-//    FragmentManager fm = getSupportFragmentManager();
-//    int count = fm.getBackStackEntryCount();
-//    for(int i = 0; i < count; ++i) {
-//        fm.popBackStackImmediate();
-//    }
 }

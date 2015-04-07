@@ -18,6 +18,7 @@
         android:id="@+id/edtpin"
         android:layout_marginTop="10dp"
         android:hint="Please enter code here"
+        android:inputType="numberDecimal"
     android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_below="@+id/dialogheader"

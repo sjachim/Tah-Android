@@ -2,6 +2,9 @@ package com.revealing.tah;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 /**
  * Created by shail on 19/03/15.
@@ -23,7 +27,7 @@ public class PwmControlFragment extends Fragment implements SeekBar.OnSeekBarCha
     SeekBar mSeekBar,mSeekBar11,mSeekBar10,mSeekBar9,mSeekBar6,mSeekBar5,mSeekBar3;
     TextView mTxtSeekValue,mTxtSeekValue11,mTxtSeekValue10,mTxtSeekValue9,mTxtSeekValue6,mTxtSeekValue5,mTxtSeekValue3;
     ImageView mImgViewLed,mImgViewLed11,mImgViewLed10,mImgViewLed9,mImgViewLed6,mImgViewLed5,mImgViewLed3;
-    SwitchCompat sw;
+    ToggleButton sw;
 
     //anolog=max=0-255===1,13,15R
 //servo=0-180====2,13,15R set seek to mid that is mid 90
@@ -32,28 +36,42 @@ public class PwmControlFragment extends Fragment implements SeekBar.OnSeekBarCha
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pwm_control, container, false);
-        sw= (SwitchCompat) view.findViewById(R.id.swanologservo);
+        sw= (ToggleButton) view.findViewById(R.id.swanologservo);
         //seek bar
         mSeekBar= (SeekBar) view.findViewById(R.id.seekBar13);
         mSeekBar.setMax(255);
+        mSeekBar.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar.setOnSeekBarChangeListener(this);
         mSeekBar11= (SeekBar) view.findViewById(R.id.seekBar11);
         mSeekBar11.setMax(255);
+        mSeekBar11.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar11.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar11.setOnSeekBarChangeListener(this);
         mSeekBar10= (SeekBar) view.findViewById(R.id.seekBar10);
         mSeekBar10.setMax(255);
+        mSeekBar10.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar10.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar10.setOnSeekBarChangeListener(this);
         mSeekBar9= (SeekBar) view.findViewById(R.id.seekBar9);
         mSeekBar9.setMax(255);
+        mSeekBar9.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar9.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar9.setOnSeekBarChangeListener(this);
         mSeekBar6= (SeekBar) view.findViewById(R.id.seekBar6);
         mSeekBar6.setMax(255);
+        mSeekBar6.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar6.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar6.setOnSeekBarChangeListener(this);
         mSeekBar5= (SeekBar) view.findViewById(R.id.seekBar5);
         mSeekBar5.setMax(255);
+        mSeekBar5.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar5.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar5.setOnSeekBarChangeListener(this);
         mSeekBar3= (SeekBar) view.findViewById(R.id.seekBar3);
         mSeekBar3.setMax(255);
+        mSeekBar3.getProgressDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
+        mSeekBar3.getThumb().setTint(Color.parseColor("#ffffff"));
         mSeekBar3.setOnSeekBarChangeListener(this);
 
         //txt value of seek bar

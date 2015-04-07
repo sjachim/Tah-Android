@@ -3,8 +3,6 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/screenback"
-    android:clickable="true"
     android:orientation="vertical">
 
 
@@ -21,7 +19,7 @@
 
         <util.NumberProgressBar
             android:id="@+id/anologpina0"
-            style="@style/NumberProgressBar_Default"
+            style="@style/NumberProgressBar_Funny_Orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -30,7 +28,7 @@
 
         <util.NumberProgressBar
             android:id="@+id/anologpina1"
-            style="@style/NumberProgressBar_Passing_Green"
+            style="@style/NumberProgressBar_Funny_Orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/anologpina0"
@@ -40,7 +38,7 @@
 
         <util.NumberProgressBar
             android:id="@+id/anologpina2"
-            style="@style/NumberProgressBar_Relax_Blue"
+            style="@style/NumberProgressBar_Funny_Orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/anologpina1"
@@ -50,7 +48,7 @@
 
         <util.NumberProgressBar
             android:id="@+id/anologpina3"
-            style="@style/NumberProgressBar_Grace_Yellow"
+            style="@style/NumberProgressBar_Funny_Orange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/anologpina2"
@@ -61,7 +59,7 @@
 
         <util.NumberProgressBar
             android:id="@+id/anologpina4"
-            style="@style/NumberProgressBar_Warning_Red"
+            style="@style/NumberProgressBar_Funny_Orange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/anologpina3"
@@ -84,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A0"
+            android:textColor="#ffffff"
             android:id="@+id/textView8"
             android:layout_alignTop="@+id/anologpina0"
             android:layout_alignStart="@+id/anologpina2" />
@@ -92,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A1"
+            android:textColor="#ffffff"
             android:id="@+id/textView9"
             android:layout_alignTop="@+id/anologpina1"
             android:layout_alignStart="@+id/textView8" />
@@ -100,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A2"
+            android:textColor="#ffffff"
             android:id="@+id/textView10"
             android:layout_alignTop="@+id/anologpina2"
             android:layout_alignStart="@+id/anologpina2" />
@@ -108,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A3"
+            android:textColor="#ffffff"
             android:id="@+id/textView11"
             android:layout_alignTop="@+id/anologpina3"
             android:layout_alignStart="@+id/anologpina3" />
@@ -116,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A3"
+            android:textColor="#ffffff"
             android:id="@+id/textView12"
             android:layout_alignTop="@+id/anologpina4"
             android:layout_alignStart="@+id/anologpina4" />
@@ -124,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A5"
+            android:textColor="#ffffff"
             android:id="@+id/textView13"
             android:layout_alignTop="@+id/anologpina5"
             android:layout_alignStart="@+id/anologpina5" />

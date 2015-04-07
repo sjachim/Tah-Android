@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/screenback"
-    android:clickable="true"
     android:layout_width="match_parent" android:layout_height="match_parent">
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true">
+    android:layout_centerHorizontal="true"
+    android:id="@+id/relativeLayout">
     <Button
         android:layout_width="220dp"
         android:layout_height="40dp"
@@ -31,4 +30,14 @@
         android:layout_alignStart="@+id/fbshare"
         android:layout_marginTop="49dp" />
 </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Like and Follow us on Facebook and Twitter"
+        android:id="@+id/textView22"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

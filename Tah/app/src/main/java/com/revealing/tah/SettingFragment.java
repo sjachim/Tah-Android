@@ -72,11 +72,13 @@ public class SettingFragment extends Fragment {
 
                     } else {
                         if (devicename == null || devicename.equals("")) {
-
                             Toast.makeText(getActivity(), "Please add device name...", Toast.LENGTH_SHORT).show();
                         } else {
-                            updateSetting(devicename, pass, true);
-
+                            if(pass.length()>6){
+                                Toast.makeText(getActivity(), "Please add 6 digit password...", Toast.LENGTH_SHORT).show();
+                            }else {
+                                updateSetting(devicename, pass, true);
+                            }
                         }
                     }
                 }

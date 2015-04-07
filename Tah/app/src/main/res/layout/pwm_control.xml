@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/screenback"
-    android:clickable="true"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 >
@@ -13,11 +10,14 @@
     android:layout_marginRight="10dp"
     android:gravity="center_vertical|center_horizontal"
     android:layout_height="wrap_content">
-    <android.support.v7.widget.SwitchCompat
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/swanologservo"
         android:checked="false"
+        android:textOff="Analog"
+        android:textAllCaps="false"
+        android:textOn="Servo"
         android:layout_marginBottom="05dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt13value"
 
         android:layout_above="@+id/seekBar13"
@@ -47,7 +47,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img13"
-        android:background="#ffeb3b"
+        android:background="#f44336"
         android:layout_alignTop="@+id/txt13value"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp" />
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt11value"
         android:layout_alignTop="@+id/img11"
         android:layout_alignStart="@+id/txt13value" />
@@ -75,7 +75,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img11"
-        android:background="#03a9f4"
+        android:background="#f44336"
         android:layout_above="@+id/seekBar11"
         android:layout_alignStart="@+id/img13" />
 
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt10value"
         android:layout_above="@+id/seekBar10"
         android:layout_alignStart="@+id/txt11value" />
@@ -102,7 +102,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img10"
-        android:background="#259b24"
+        android:background="#f44336"
         android:layout_above="@+id/seekBar10"
         android:layout_alignStart="@+id/img11" />
 
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt9value"
         android:layout_above="@+id/seekBar9"
         android:layout_alignStart="@+id/txt10value" />
@@ -129,7 +129,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img9"
-        android:background="#e51c23"
+        android:background="#f44336"
         android:layout_alignTop="@+id/txt9value"
         android:layout_alignEnd="@+id/img10" />
 
@@ -147,7 +147,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt6value"
         android:layout_above="@+id/seekBar6"
         android:layout_alignStart="@+id/txt9value" />
@@ -156,7 +156,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img6"
-        android:background="#00bcd4"
+        android:background="#f44336"
         android:layout_above="@+id/seekBar6"
         android:layout_alignEnd="@+id/img9" />
 
@@ -174,7 +174,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt5value"
         android:layout_above="@+id/seekBar5"
         android:layout_alignStart="@+id/txt6value" />
@@ -183,7 +183,7 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img5"
-        android:background="#e040fb"
+        android:background="#f44336"
         android:layout_alignTop="@+id/txt5value"
         android:layout_alignEnd="@+id/img6" />
 
@@ -201,7 +201,7 @@
         android:layout_height="wrap_content"
         android:text="0"
         android:textStyle="bold"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:id="@+id/txt3value"
         android:layout_above="@+id/seekBar3"
         android:layout_alignStart="@+id/txt5value" />
@@ -210,9 +210,79 @@
         android:layout_width="30dp"
         android:layout_height="15dp"
         android:id="@+id/img3"
-        android:background="#009688"
+        android:background="#f44336"
         android:layout_alignTop="@+id/txt3value"
         android:layout_alignEnd="@+id/img5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 3"
+        android:textColor="#ffffff"
+        android:id="@+id/textView15"
+        android:layout_marginRight="03dp"
+        android:layout_above="@+id/seekBar3"
+        android:layout_toStartOf="@+id/img3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 5"
+        android:textColor="#ffffff"
+        android:id="@+id/textView16"
+        android:layout_marginRight="03dp"
+        android:layout_above="@+id/seekBar5"
+        android:layout_alignStart="@+id/textView15" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 6"
+        android:textColor="#ffffff"
+        android:id="@+id/textView17"
+        android:layout_marginRight="03dp"
+        android:layout_below="@+id/seekBar5"
+        android:layout_toStartOf="@+id/img6" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 9"
+        android:textColor="#ffffff"
+        android:id="@+id/textView18"
+        android:layout_marginRight="03dp"
+        android:layout_below="@+id/seekBar6"
+        android:layout_toStartOf="@+id/img9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 10"
+        android:textColor="#ffffff"
+        android:id="@+id/textView19"
+        android:layout_marginRight="03dp"
+        android:layout_below="@+id/seekBar9"
+        android:layout_alignEnd="@+id/textView18" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 11"
+        android:textColor="#ffffff"
+        android:id="@+id/textView20"
+        android:layout_marginRight="03dp"
+        android:layout_below="@+id/seekBar10"
+        android:layout_toStartOf="@+id/img11" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pin 13"
+        android:textColor="#ffffff"
+        android:id="@+id/textView21"
+        android:layout_marginRight="03dp"
+        android:layout_below="@+id/seekBar11"
+        android:layout_toStartOf="@+id/img13" />
 
 </RelativeLayout>
 </RelativeLayout>

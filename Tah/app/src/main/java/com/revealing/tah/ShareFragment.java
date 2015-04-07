@@ -52,25 +52,28 @@ public class ShareFragment extends Fragment {
         View view = inflater.inflate(R.layout.share_fragment, container, false);
         btnFbShare = (Button) view.findViewById(R.id.fbshare);
         btnTwShare = (Button) view.findViewById(R.id.btnsharetwter);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         //share on facebook
         btnFbShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Utils.haveNetworkConnection(getActivity())) {
+
                     try {
                         mFacebook = new Facebook(APP_ID);
                         if (!mFacebook.isSessionValid()) {
-                            //					LoginFBtask btask=new LoginFBtask();
-                            //					btask.execute("");
+
                             fbLogin();
                         } else {
-                            postToFacebook("http://Google.com", "demo", "demo");
+                            postToFacebook();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
-                    Toast.makeText(getActivity(),"Please check internet connection...",Toast.LENGTH_SHORT);
+
+                    Toast.makeText(Selector.activity,"Please check internet connection...",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -81,7 +84,7 @@ public class ShareFragment extends Fragment {
                 if(Utils.haveNetworkConnection(getActivity())) {
                     shareTwitter();
                 }else{
-                    Toast.makeText(getActivity(),"Please check internet connection...",Toast.LENGTH_SHORT);
+                    Toast.makeText(Selector.activity,"Please check internet connection...",Toast.LENGTH_SHORT).show();
                 }
                 //System.out.print("key key=="+printKeyHash(Selector.activity));
             }
@@ -96,7 +99,7 @@ public class ShareFragment extends Fragment {
                 //The user has logged in, so now you can query and use their Facebook info
                 JSONObject json = Util.parseJson(mFacebook.request("me"));
                 SessionStore.save(mFacebook, Selector.activity);
-                postToFacebook("http://Google.com", "demo", "demo");
+                postToFacebook();
             } catch (Exception error) {
                 Toast.makeText(Selector.activity, error.toString(), Toast.LENGTH_SHORT).show();
             } catch (FacebookError error) {
@@ -169,7 +172,7 @@ public class ShareFragment extends Fragment {
         public void onAuthSucceed() {
             try {
                 mFacebook = new Facebook(APP_ID);
-                postToFacebook("http://Google.com", "demo", "demo");
+                postToFacebook();
             } catch (Exception e) {
                 e.printStackTrace();
                 // TODO: handle exception
@@ -214,7 +217,7 @@ public class ShareFragment extends Fragment {
         }
     }
 
-    private void postToFacebook(String link, String caption, String description) {
+    private void postToFacebook() {
 
 
         try {
@@ -223,9 +226,11 @@ public class ShareFragment extends Fragment {
 //            params.putString("caption", "Tah");
 //            params.putString("link", link);
 
-            params.putString("message", "Demo");
-            params.putString("description", "topic share");
-            params.putString("link", link);
+
+
+            params.putString("message", "Tah");
+            params.putString("description", "You should check out Tah, the Arduino-compatible BLE development board:http://www.tah.io");
+            params.putString("link", "http://www.tah.io");
             //   params.putString("picture", imagelink);
 
             mFacebook.dialog(Selector.activity, "feed", params, new Facebook.DialogListener() {
@@ -304,7 +309,7 @@ public class ShareFragment extends Fragment {
     //share on twitter
     public void shareTwitter() {
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
-        tweetIntent.putExtra(Intent.EXTRA_TEXT, "This is a Test.");
+        tweetIntent.putExtra(Intent.EXTRA_TEXT, "You should check out Tah, the Arduino-compatible BLE development board: http://www.tah.io");
         tweetIntent.setType("text/plain");
 
         PackageManager packManager = Selector.activity.getPackageManager();
@@ -324,7 +329,7 @@ public class ShareFragment extends Fragment {
             startActivity(tweetIntent);
         } else {
             Intent i = new Intent();
-            i.putExtra(Intent.EXTRA_TEXT, "Demo share on twitter");
+            i.putExtra(Intent.EXTRA_TEXT, "You should check out Tah, the Arduino-compatible BLE development board: http://www.tah.io");
             i.setAction(Intent.ACTION_VIEW);
             i.setData(Uri.parse("https://twitter.com/intent/tweet?text=message&via=profileName"));
             startActivity(i);

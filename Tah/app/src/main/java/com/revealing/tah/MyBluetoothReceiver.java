@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Created by shail on 04/04/15.
@@ -47,17 +48,29 @@ public class MyBluetoothReceiver extends BroadcastReceiver {
         mydialog.setContentView(R.layout.pindialog);
         mydialog.setCancelable(true);
         Button btnok = (Button) mydialog.findViewById(R.id.btnok);
-        final EditText edtpin= (EditText) mydialog.findViewById(R.id.edtpin);
-        btnok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pairDevice(edtpin.getText().toString(),intent);
-                mydialog.cancel();
-            }
-        });
+        Button btncancel = (Button) mydialog.findViewById(R.id.btncancel);
+        final EditText edtpin = (EditText) mydialog.findViewById(R.id.edtpin);
+        try {
+            btnok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pairDevice(edtpin.getText().toString(), intent);
+                    mydialog.cancel();
+                }
+            });
 
+            btncancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mydialog.cancel();
+                    Selector.activity.finish();
 
-        mydialog.show();
+                }
+            });
+            mydialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void pairDevice(String pinstrg, Intent intent) {
@@ -76,7 +89,8 @@ public class MyBluetoothReceiver extends BroadcastReceiver {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("statu$$$$$$$$$$$$$$$$$bondstate$$$$$$$$$$$$$$$$$$$$$$$sstatus==="+device.getBondState());
+
+        Toast.makeText(Selector.activity, "Please wait,it will take some time...", Toast.LENGTH_SHORT).show();
 
 
     }

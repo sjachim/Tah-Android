@@ -1,14 +1,15 @@
 package com.revealing.tah;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,10 +20,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +37,7 @@ import util.Constant;
 //http://www.andevcon.com/news/46-android-developer-libraries-by-category
 //https://github.com/snowdream/awesome-android
 //http://snowdream.github.io/awesome-android/
+//http://www.londatiga.net/it/programming/android/how-to-programmatically-pair-or-unpair-android-bluetooth-device/
 public class MainActivity extends ActionBarActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LeDeviceListAdapter mLeDeviceListAdapter;
@@ -41,20 +46,17 @@ public class MainActivity extends ActionBarActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     private Handler mHandler;
     private boolean mScanning;
-    // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000;
+    // Stops scanning after 10 seconds.10000;
+    private static final long SCAN_PERIOD = 5000;
     private ListView mDeviceList;
-    private TextView mTextHeader;
-    private ImageView mImgHeaderBack;
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDeviceList= (ListView) findViewById(R.id.listView);
-//        mTextHeader= (TextView) findViewById(R.id.view_actionbar_title);
-//        mImgHeaderBack= (ImageView) findViewById(R.id.imghederback);
-//        mImgHeaderBack.setVisibility(View.INVISIBLE);
-//        mTextHeader.setText("Discover");
+progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         mHandler = new Handler();
         //set action bar home button
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
@@ -64,13 +66,27 @@ public class MainActivity extends ActionBarActivity {
         final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
 
+
+        final Dialog mydialog = getShareOptionDialog(MainActivity.this);
+        FrameLayout relswipe = (FrameLayout) mydialog.findViewById(R.id.relativesipe);
+        relswipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mydialog.cancel();
+               progressBar.setVisibility(View.VISIBLE);
+                mLeDeviceListAdapter = new LeDeviceListAdapter();
+                mDeviceList.setAdapter(mLeDeviceListAdapter);
+                scanLeDevice(true);
+            }
+        });
+        mydialog.show();
         //first check bluetooth is enable or not
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             showAlert(MainActivity.this);
         }else{
-            mLeDeviceListAdapter = new LeDeviceListAdapter();
-            mDeviceList.setAdapter(mLeDeviceListAdapter);
-            scanLeDevice(true);
+//            mLeDeviceListAdapter = new LeDeviceListAdapter();
+//            mDeviceList.setAdapter(mLeDeviceListAdapter);
+//            scanLeDevice(true);
         }
 
          //swipe to refresh
@@ -82,6 +98,7 @@ public class MainActivity extends ActionBarActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
                         if(mBluetoothAdapter.isDiscovering()){
                             Toast.makeText(MainActivity.this,"Already in process..",Toast.LENGTH_SHORT).show();
                         }else {
@@ -91,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
                             mSwipeRefreshLayout.setRefreshing(false);
                         }
                     }
-                }, 2500);
+                }, 5500);
             }
         });
 
@@ -125,6 +142,7 @@ public class MainActivity extends ActionBarActivity {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    progressBar.setVisibility(View.INVISIBLE);
                     mScanning = false;
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     invalidateOptionsMenu();
@@ -135,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
+
         }
         invalidateOptionsMenu();
     }
@@ -147,6 +166,7 @@ public class MainActivity extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             mLeDeviceListAdapter.addDevice(device);
                             mLeDeviceListAdapter.notifyDataSetChanged();
                         }
@@ -215,6 +235,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public int getCount() {
+
             return mLeDevices.size();
         }
 
@@ -280,5 +301,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static Dialog getShareOptionDialog(Context ctx)
+    {
+        Dialog helpdialog = new Dialog(ctx);
+        helpdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        helpdialog.setContentView(R.layout.scanhelp);
+        helpdialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        helpdialog.setCancelable(true);
+        return helpdialog;
     }
 }
