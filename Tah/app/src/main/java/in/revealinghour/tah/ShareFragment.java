@@ -1,4 +1,4 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -39,7 +39,7 @@ import util.Utils;
 public class ShareFragment extends Fragment {
     Button btnFbShare, btnTwShare;
     private Facebook mFacebook;
-    public static String facebook_mAPP_ID = "823848531035527";
+    public static String facebook_mAPP_ID = "xxxxxxx";
     private static final String APP_ID = facebook_mAPP_ID;
     private Facebook mFb;
     private String[] mPermissions;

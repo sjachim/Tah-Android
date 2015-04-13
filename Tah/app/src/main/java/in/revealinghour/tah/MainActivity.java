@@ -1,4 +1,4 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -148,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         super.onBackPressed();
 //logout from fb
-        Facebook facebook = new Facebook("823848531035527");
+        Facebook facebook = new Facebook("xxxxxxx");
         try {
             facebook.logout(getApplicationContext());
             SessionStore.clear(getApplicationContext());

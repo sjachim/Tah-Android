@@ -1,12 +1,9 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.AttributeSet;
-import android.view.View;
+
 
 /**
  * Created by shail on 06/04/15.

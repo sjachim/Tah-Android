@@ -38,7 +38,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.revealing.tah.R;
+import in.revealinghour.tah.R;
 
 
 public class FbDialog extends Dialog
@@ -87,6 +87,7 @@ public class FbDialog extends Dialog
 
 		private void setUpTitle()
 			{
+
 				requestWindowFeature(Window.FEATURE_NO_TITLE);
 				Drawable icon = getContext().getResources().getDrawable(R.drawable.facebook_icon);
 				mTitle = new TextView(getContext());

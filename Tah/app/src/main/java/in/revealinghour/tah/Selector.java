@@ -1,4 +1,4 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;

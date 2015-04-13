@@ -1,14 +1,13 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ public class PwmControlFragment extends Fragment implements SeekBar.OnSeekBarCha
     ImageView mImgViewLed, mImgViewLed11, mImgViewLed10, mImgViewLed9, mImgViewLed6, mImgViewLed5, mImgViewLed3;
     ToggleButton sw;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pwm_control, container, false);

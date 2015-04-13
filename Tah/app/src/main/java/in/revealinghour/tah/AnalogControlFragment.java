@@ -1,28 +1,16 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.Handler;
 
-import bleservice.BluetoothLeService;
-import util.Constant;
 import util.NumberProgressBar;
 
 /**

@@ -1,8 +1,6 @@
-package com.revealing.tah;
+package in.revealinghour.tah;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +15,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import bleservice.BluetoothLeService;
 

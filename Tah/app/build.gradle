@@ -5,9 +5,9 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.revealing.tah"
-        minSdkVersion 19
-        targetSdkVersion 19
+        applicationId "in.revealinghour.tah"
+        minSdkVersion 18
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }

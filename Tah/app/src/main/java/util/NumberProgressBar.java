@@ -11,7 +11,8 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.revealing.tah.R;
+
+import in.revealinghour.tah.R;
 
 import static util.NumberProgressBar.ProgressTextVisibility.Invisible;
 import static util.NumberProgressBar.ProgressTextVisibility.Visible;
@@ -160,6 +161,7 @@ public class NumberProgressBar extends View {
 
     public NumberProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.numberProgressBarStyle);
+
     }
 
     public NumberProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
