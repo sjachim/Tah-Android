@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,10 +33,7 @@ import android.widget.Toast;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import adapter.DrawerAdapter;
 import bleservice.BluetoothLeService;
 import util.Constant;
 import util.PreferenceHelper;
@@ -45,15 +43,7 @@ import util.PreferenceHelper;
  */
 
 public class Selector extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
-//check all fragment view clickable
-//check onBackStackChanged method
-// add ripple effect
-//http://stackoverflow.com/questions/10389620/fragment-over-another-fragment-issue
-//https://snowdog.co/blog/getting-material-design-for-pre-lollipop-devices-with-appcompat-v21/
-//http://stackoverflow.com/questions/24008249/android-ble-read-and-write-characteristics
-//http://toastdroid.com/2014/09/22/android-bluetooth-low-energy-tutorial/
-//http://stackoverflow.com/questions/21043997/ble-answer-after-writing-over-gatt-in-android
-//http://stackoverflow.com/questions/20064136/how-to-change-the-name-of-bluetooth-low-energy-device-in-android-4-3
+
     private String mDeviceName;
     private String mDeviceAddress;
     View mConnectionStatus;
@@ -67,7 +57,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPlanetTitles;
-    DrawerAdapter drawerAdapter;
     android.support.v7.app.ActionBar actionBar;
     TextView txtProfileName, txtDeviceAddress;
     ArrayList<String> arrayList;
@@ -83,8 +72,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 //                    finish();
             }
             // Automatically connects to the device upon successful start-up initialization.
-            System.out.println("=connection= " + mBluetoothLeService.connect(mDeviceAddress));
-            //mBluetoothLeService.connect(mDeviceAddress);
+            mBluetoothLeService.connect(mDeviceAddress);
         }
 
         @Override
@@ -104,31 +92,19 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         txtDeviceAddress = (TextView) findViewById(R.id.desc);
 // new changes for action bar and drawer
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mPlanetTitles = getResources().getStringArray(R.array.drawer_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        List<String> stringList = new ArrayList<String>(Arrays.asList(mPlanetTitles));
-//        drawerAdapter = new DrawerAdapter(Selector.this, (ArrayList<String>) stringList);
-//        mDrawerList.setAdapter(drawerAdapter);
-
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
-        //mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-//
-//        Window window =getWindow();
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//        window.setStatusBarColor(Color.parseColor("#66bb6a"));
         // enable ActionBar app icon to behave as action to toggle nav drawer
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        // ColorDrawable cd = new ColorDrawable(0xFFFF6666);
-        //  actionBar.setBackgroundDrawable(cd);
         actionBar.setIcon(android.R.color.transparent);
         actionBar.setHomeButtonEnabled(false);
 
@@ -156,8 +132,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
 
         if (savedInstanceState == null) {
             changeFragment(new IoCantrolFragment(), 0);
-            // replaceFragment(new BlankFragment(), 0);
-            //selectItem(0);
         }
 
         Intent intent = getIntent();
@@ -185,12 +159,12 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_main, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onResume() {
@@ -306,7 +280,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                 // Show all the supported services and characteristics on the user interface.
                 // displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
-
                 if (AnalogControlFragment.anolgfragment) {
                     final String data = intent.getStringExtra(BluetoothLeService.EXTRA_DATA).toString();
                     Thread t = new Thread(new Runnable() {
@@ -347,7 +320,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                     Toast.makeText(getApplicationContext(), "Disconnect  Tah", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "connected to Tah", Toast.LENGTH_SHORT).show();
-                    mConnectionStatus.setBackgroundColor(Color.parseColor("#00e676"));
+                    mConnectionStatus.setBackgroundColor(Color.parseColor("#76ff03"));
                 }
             }
         });
@@ -411,19 +384,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
         // start thread
 
     }
-
-    //method to set fragment
-    protected void setFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.EXTRAS_DEVICE_NAME, mDeviceName);
-        bundle.putString(Constant.EXTRAS_DEVICE_ADDRESS, mDeviceAddress);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(android.R.id.content, fragment);
-        fragmentTransaction.commit();
-    }
-
     //change fragment
     public void changeFragment(Fragment targetFragment, int position) {
         //clearFragmentBackStack();
@@ -434,7 +394,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
             String packageNameAsTag = ((Object) targetFragment).getClass().getCanonicalName();
-            System.out.println("package name is :: " + packageNameAsTag);
+           // System.out.println("package name is :: " + packageNameAsTag);
 
             if (fragmentManager.findFragmentByTag(packageNameAsTag) == null) {
                 fragmentTransaction.add(R.id.content_frame, targetFragment, packageNameAsTag);
@@ -446,7 +406,7 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
                 System.out.println(((Object) targetFragment).getClass().getSimpleName() + " added to backstack");
                 fragmentTransaction.commit();
             } else {
-                System.out.println("this fragment is already in the backstack");
+               // System.out.println("this fragment is already in the backstack");
             }
         } else {
 //            ToastUtil.displayToast(this, this.getString(R.string.toast_working));
@@ -515,12 +475,16 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
      * Function to clear fragment backstack but one
      */
     public void clearFragmentBackStack() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 0) {
-            int i = fragmentManager.getBackStackEntryCount();
-            for (int j = 0; j < i; j++) {
-                fragmentManager.popBackStackImmediate();
+        try {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                int i = fragmentManager.getBackStackEntryCount();
+                for (int j = 0; j < i; j++) {
+                    fragmentManager.popBackStackImmediate();
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
     }
@@ -544,7 +508,6 @@ public class Selector extends ActionBarActivity implements FragmentManager.OnBac
     private class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            DrawerAdapter.id = position;
             selectItem(position);
 
 

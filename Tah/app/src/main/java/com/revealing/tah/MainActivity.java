@@ -9,6 +9,9 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,18 +29,15 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import social.Facebook;
+import social.SessionStore;
 import util.Constant;
 
-//http://www.andevcon.com/news/46-android-developer-libraries-by-category
-//https://github.com/snowdream/awesome-android
-//http://snowdream.github.io/awesome-android/
-//http://www.londatiga.net/it/programming/android/how-to-programmatically-pair-or-unpair-android-bluetooth-device/
 public class MainActivity extends ActionBarActivity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LeDeviceListAdapter mLeDeviceListAdapter;
@@ -50,20 +50,22 @@ public class MainActivity extends ActionBarActivity {
     private static final long SCAN_PERIOD = 5000;
     private ListView mDeviceList;
     ProgressBar progressBar;
+    boolean DeviceFound = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mDeviceList= (ListView) findViewById(R.id.listView);
-progressBar= (ProgressBar) findViewById(R.id.progressBar1);
+        mDeviceList = (ListView) findViewById(R.id.listView);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#FF530D"), PorterDuff.Mode.SRC_IN);
         mHandler = new Handler();
         //set action bar home button
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
 
         //init bluetooth adapter
-        final BluetoothManager bluetoothManager =(BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(this.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
 
 
@@ -73,7 +75,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
             @Override
             public void onClick(View v) {
                 mydialog.cancel();
-               progressBar.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
                 mLeDeviceListAdapter = new LeDeviceListAdapter();
                 mDeviceList.setAdapter(mLeDeviceListAdapter);
                 scanLeDevice(true);
@@ -83,32 +85,30 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         //first check bluetooth is enable or not
         if (mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
             showAlert(MainActivity.this);
-        }else{
+        } else {
 //            mLeDeviceListAdapter = new LeDeviceListAdapter();
 //            mDeviceList.setAdapter(mLeDeviceListAdapter);
 //            scanLeDevice(true);
         }
 
-         //swipe to refresh
+        //swipe to refresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                //start scan
+                mLeDeviceListAdapter = new LeDeviceListAdapter();
+                mDeviceList.setAdapter(mLeDeviceListAdapter);
+                scanLeDevice(true);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+//remove refreshing icon
+                        mSwipeRefreshLayout.setRefreshing(false);
 
-                        if(mBluetoothAdapter.isDiscovering()){
-                            Toast.makeText(MainActivity.this,"Already in process..",Toast.LENGTH_SHORT).show();
-                        }else {
-                            mLeDeviceListAdapter = new LeDeviceListAdapter();
-                            mDeviceList.setAdapter(mLeDeviceListAdapter);
-                            scanLeDevice(true);
-                            mSwipeRefreshLayout.setRefreshing(false);
-                        }
                     }
-                }, 5500);
+                }, 6000);
             }
         });
 
@@ -116,7 +116,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
-                Toast.makeText(MainActivity.this,""+device.getName(),Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "" + device.getName(), Toast.LENGTH_LONG).show();
 
                 if (device == null) return;
                 //device.createBond();
@@ -127,6 +127,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     mScanning = false;
                 }
+                DeviceFound = true;
                 startActivity(intent);
 //
 //                Intent i=new Intent(MainActivity.this,Selector.class);
@@ -135,7 +136,29 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!DeviceFound) {
+            DeviceFound = false;
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//logout from fb
+        Facebook facebook = new Facebook("823848531035527");
+        try {
+            facebook.logout(getApplicationContext());
+            SessionStore.clear(getApplicationContext());
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+    }
+//scnan device method
     private void scanLeDevice(final boolean enable) {
         if (enable) {
             // Stops scanning after a pre-defined scan period.
@@ -146,6 +169,9 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
                     mScanning = false;
                     mBluetoothAdapter.stopLeScan(mLeScanCallback);
                     invalidateOptionsMenu();
+                    if (!DeviceFound) {
+                        Toast.makeText(getApplication(), "Device not found", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }, SCAN_PERIOD);
             mScanning = true;
@@ -153,10 +179,10 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         } else {
             mScanning = false;
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
-
         }
         invalidateOptionsMenu();
     }
+
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
@@ -173,8 +199,9 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
                     });
                 }
             };
+
     //alert dialog if bluetooth disable
-    public void showAlert(Context context){
+    public void showAlert(Context context) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setMessage("Please enable bluetooth..");
         builder1.setCancelable(true);
@@ -196,6 +223,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         AlertDialog alert11 = builder1.create();
         alert11.show();
     }
+
     //on activity result used after bluetooth start
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -204,18 +232,20 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
             Toast.makeText(MainActivity.this, "Please turn on bluetooth...", Toast.LENGTH_SHORT).show();
             //finish();
             return;
-        }else{
+        } else {
             mLeDeviceListAdapter = new LeDeviceListAdapter();
             mDeviceList.setAdapter(mLeDeviceListAdapter);
             scanLeDevice(true);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     //holder class for adapter
     static class ViewHolder {
         TextView deviceName;
         TextView deviceAddress;
     }
+
     // Adapter class  for holding devices found through scanning.
     private class LeDeviceListAdapter extends BaseAdapter {
         private ArrayList<BluetoothDevice> mLeDevices;
@@ -228,6 +258,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
         }
 
         public void addDevice(BluetoothDevice device) {
+            DeviceFound = true;
             if (!mLeDevices.contains(device)) {
                 mLeDevices.add(device);
             }
@@ -235,7 +266,6 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
 
         @Override
         public int getCount() {
-
             return mLeDevices.size();
         }
 
@@ -257,7 +287,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
                 view = mInflator.inflate(R.layout.devicelist, null);
                 viewHolder = new ViewHolder();
 //                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.dvname);
-               viewHolder.deviceName = (TextView) view.findViewById(R.id.dvname);
+                viewHolder.deviceName = (TextView) view.findViewById(R.id.dvname);
                 view.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) view.getTag();
@@ -268,8 +298,7 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
             if (deviceName != null && deviceName.length() > 0) {
 
                 viewHolder.deviceName.setText(deviceName);
-            }
-            else {
+            } else {
                 viewHolder.deviceName.setText("Unknown Device");
 
             }
@@ -291,25 +320,23 @@ progressBar= (ProgressBar) findViewById(R.id.progressBar1);
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case android.R.id.home:
 
-        finish();
-            break;
+                finish();
+                break;
 
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public static Dialog getShareOptionDialog(Context ctx)
-    {
-        Dialog helpdialog = new Dialog(ctx);
-        helpdialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        helpdialog.setContentView(R.layout.scanhelp);
-        helpdialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        helpdialog.setCancelable(true);
-        return helpdialog;
+    public static Dialog getShareOptionDialog(Context ctx) {
+        Dialog helpDialog = new Dialog(ctx);
+        helpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        helpDialog.setContentView(R.layout.scanhelp);
+        helpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        helpDialog.setCancelable(true);
+        return helpDialog;
     }
 }

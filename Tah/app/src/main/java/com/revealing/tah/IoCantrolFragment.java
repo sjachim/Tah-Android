@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import bleservice.BluetoothLeService;
+
 /**
  * Created by shail on 12/03/15.
  */
@@ -33,7 +35,7 @@ public class IoCantrolFragment extends Fragment implements CompoundButton.OnChec
     public static boolean screenVisible = true;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.selector_layout, container, false);
+        View view = inflater.inflate(R.layout.iocantrol, container, false);
         blueLed = (ImageView) view.findViewById(R.id.imgblueled);
         ledPin13 = (ImageView) view.findViewById(R.id.m13led);
         mSwD13 = (SwitchCompat) view.findViewById(R.id.swd13);
@@ -61,8 +63,6 @@ public class IoCantrolFragment extends Fragment implements CompoundButton.OnChec
         mSwD2 = (SwitchCompat) view.findViewById(R.id.swd2);
         mSwD2.setOnCheckedChangeListener(this);
 
-//        mSwD13.getThumbDrawable().setColorFilter(Color.parseColor("#f44336"), PorterDuff.Mode.SRC_IN);
-//        mSwD13.getTrackDrawable().setColorFilter(Color.parseColor("#f44336"), PorterDuff.Mode.SRC_IN);
         ledOnOff(true);
         context = getActivity();
         return view;
@@ -200,14 +200,14 @@ public class IoCantrolFragment extends Fragment implements CompoundButton.OnChec
 
     }
 
-
+//led animation
     public void ledOnOff(final boolean start) {
         Animation animation = new AlphaAnimation(2, 0);
         animation.setDuration(500);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.REVERSE);
-        if (start) {
+        if (start && BluetoothLeService.sleepWakeup) {
             blueLed.startAnimation(animation);
         } else {
             blueLed.clearAnimation();

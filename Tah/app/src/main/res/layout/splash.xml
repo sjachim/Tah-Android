@@ -15,9 +15,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TAH.IO"
+        android:text="tah.io"
         android:id="@+id/textView23"
-        android:layout_marginTop="05dp"
+        android:layout_marginTop="08dp"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

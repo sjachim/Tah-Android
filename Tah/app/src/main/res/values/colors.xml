@@ -8,6 +8,8 @@
     <color name="screenback">#fafafa</color>
     <color name="buttoncolor">#2196f3</color>
     <color name="stscolor">#FF530D</color>
+    <color name="drawbleselect">#bbdefb</color>
 
+    <color name="drawertoselect">#e3f2fd</color>
 
 </resources>

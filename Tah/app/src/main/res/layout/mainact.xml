@@ -33,14 +33,14 @@ android:background="@drawable/blue"
             android:id="@+id/profileBox"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#673ab7"
+            android:background="#105D92"
             android:padding="8dp" >
 
             <ImageView
                 android:id="@+id/avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/drawer"
                 android:layout_marginTop="15dp" />
 
             <LinearLayout

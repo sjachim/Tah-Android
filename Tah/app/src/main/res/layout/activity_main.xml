@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/blue"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 <TextView
@@ -8,6 +9,7 @@
     android:text="Swipe down to scan device"
     android:id="@+id/swipetxt"
     android:gravity="center"
+    android:textColor="#FFFFFF"
     android:layout_marginTop="05dp"
     android:layout_height="wrap_content" />
     <View
@@ -39,7 +41,7 @@
 
         <ProgressBar
             android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleSmall"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -21,49 +22,41 @@ import util.PreferenceHelper;
  */
 public class SettingFragment extends Fragment {
     EditText edtDeviceName, edtPassword;
-    ToggleButton tgOpenSecure;
+    RadioGroup tgOpenSecure;
     Button btnUpdate;
     Context context;
-
+    boolean openSecure=false;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.setting_fragment, container, false);
         context = getActivity();
         btnUpdate = (Button) view.findViewById(R.id.btnupdatesetting);
-        tgOpenSecure = (ToggleButton) view.findViewById(R.id.swopensecure);
+        tgOpenSecure = (RadioGroup) view.findViewById(R.id.radioSex);
         edtPassword = (EditText) view.findViewById(R.id.edtdevicepass);
         edtDeviceName = (EditText) view.findViewById(R.id.edtdvicenam);
-        edtDeviceName.setText(PreferenceHelper.getTahName(context));
-
         edtPassword.setEnabled(false);
-//change toggle i.e open to secure.
-        tgOpenSecure.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        tgOpenSecure.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    edtPassword.setEnabled(true);
-                   // edtPassword.setFocusable(true);
-                    ((Selector) getActivity()).writeData("AT+TYPE2", false);
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                } else {
+                if(checkedId==R.id.radioMale){
                     edtPassword.setEnabled(false);
-                    //edtPassword.setFocusable(false);
+                    openSecure=false;
                     ((Selector) getActivity()).writeData("AT+TYPE0", false);
-
+                }else{
+                    edtPassword.setEnabled(true);
+                    openSecure=true;
+                    ((Selector) getActivity()).writeData("AT+TYPE2", false);
                 }
             }
         });
-//update button click listener
+////update button click listener
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!tgOpenSecure.isChecked()) {
-                    if (edtDeviceName.getText().toString() != null && !edtDeviceName.getText().toString().equals("")) {
-                        String devicename = edtDeviceName.getText().toString();
-                        updateSetting(devicename, "", false);
-                    } else {
-                        Toast.makeText(getActivity(), "Please add device name...", Toast.LENGTH_SHORT).show();
-                    }
+                if (!openSecure) {
+                    updateSetting(edtDeviceName.getText().toString(), "", false);
                 } else {
                     String pass = edtPassword.getText().toString();
                     String devicename = edtDeviceName.getText().toString();
@@ -71,26 +64,25 @@ public class SettingFragment extends Fragment {
                         Toast.makeText(getActivity(), "Please add 6 digit password...", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        if (devicename == null || devicename.equals("")) {
-                            Toast.makeText(getActivity(), "Please add device name...", Toast.LENGTH_SHORT).show();
-                        } else {
+
                             if(pass.length()>6){
                                 Toast.makeText(getActivity(), "Please add 6 digit password...", Toast.LENGTH_SHORT).show();
                             }else {
                                 updateSetting(devicename, pass, true);
                             }
                         }
-                    }
                 }
             }
         });
         return view;
     }
-//method to update settings
+    //method to update settings
     public void updateSetting(String deviceName, String password, boolean passornaot) {
 
         if (passornaot) {
-            ((Selector) getActivity()).writeData("AT+NAME" + deviceName, false);
+            if(deviceName!=null && !deviceName.equals("")) {
+                ((Selector) getActivity()).writeData("AT+NAME" + deviceName, false);
+            }
             //1000 milliseconds is one second.
             try {
                 Thread.sleep(100);
@@ -101,7 +93,9 @@ public class SettingFragment extends Fragment {
                 Thread.currentThread().interrupt();
             }
         } else {
-            ((Selector) getActivity()).writeData("AT+NAME" + deviceName, false);
+            if(deviceName!=null && !deviceName.equals("")) {
+                ((Selector) getActivity()).writeData("AT+NAME" + deviceName, false);
+            }
             //1000 milliseconds is one second.
             try {
                 Thread.sleep(100);
@@ -111,28 +105,6 @@ public class SettingFragment extends Fragment {
             }
         }
         Toast.makeText(getActivity(), "Changes Updated...", Toast.LENGTH_SHORT).show();
-       // getActivity().finish();
+        // getActivity().finish();
     }
 }
-//((Selector) getActivity()).writeData("AT+NAMEios", false);
-//        try {
-//        Thread.sleep(1000);
-//        ((Selector) getActivity()).writeData("AT+RESET", false);
-//        } catch (InterruptedException ie) {
-//        //Handle exception
-//        }
-
-//"AT+RESET"
-
-//AT+TYPE0  to open security
-//AT+TYPE2 to secure
-
-//AT+PASS6digit
-
-
-//with type1
-//onClientConnectionState() - status=22 clientIf=5 device=78:A5:04:61:29:E4
-
-
-//in open state
-//onClientConnectionState() - status=0 clientIf=5 device=78:A5:04:61:29:E4

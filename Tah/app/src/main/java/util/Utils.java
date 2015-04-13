@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
  * Created by shail on 05/04/15.
  */
 public class Utils {
-
+//check internet connection
     public static boolean haveNetworkConnection(Context ctx) {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;

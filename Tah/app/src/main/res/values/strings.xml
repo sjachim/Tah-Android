@@ -2,15 +2,15 @@
     <string name="app_name">Tah</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Home</string>
+    <string name="action_settings">Disconnect</string>
 
 
 
-    <string-array name="planets_array">
+    <string-array name="drawer_array">
         <item>IO Control</item>
         <item>PWM Control</item>
         <item>Analog Control</item>
-        <item>Setting</item>
+        <item>Settings</item>
         <item>Share</item>
 
 

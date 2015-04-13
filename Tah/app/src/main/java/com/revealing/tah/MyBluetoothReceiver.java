@@ -24,20 +24,9 @@ public class MyBluetoothReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        // When discovery finds a device
         if (BluetoothDevice.ACTION_PAIRING_REQUEST.equals(action)) {
             pinavilable = true;
-
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            // Get the BluetoothDevice object from the Intent
-//            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-//            int type = intent.getIntExtra(BluetoothDevice.EXTRA_PAIRING_VARIANT,
-//                    BluetoothDevice.ERROR);
-//            device.setPairingConfirmation( true );
-            //you can get name by device.getName()
-
             showDialog(intent);
-
 
         }
     }
@@ -75,13 +64,10 @@ public class MyBluetoothReceiver extends BroadcastReceiver {
 
     public void pairDevice(String pinstrg, Intent intent) {
 
-        String DEVICE_PIN = "654321";
         final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         device.createBond();
         device.setPairingConfirmation(true);
-        String pind = "123456";
-        byte pins[] = pind.getBytes();
-        //device.setPin(pin);
+
 
         try {
             byte[] pin = (byte[]) BluetoothDevice.class.getMethod("convertPinToBytes", String.class).invoke(BluetoothDevice.class, pinstrg);

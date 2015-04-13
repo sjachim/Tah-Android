@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
 
+import bleservice.BluetoothLeService;
 import util.Constant;
 import util.NumberProgressBar;
 
@@ -37,7 +38,6 @@ public class AnalogControlFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.analog_cantrol_fragment, container, false);
-        //http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/
         context = getActivity();
         arrayList = new ArrayList<String>();
 
@@ -47,9 +47,6 @@ public class AnalogControlFragment extends Fragment {
         pinA3 = (NumberProgressBar) view.findViewById(R.id.anologpina3);
         pinA4 = (NumberProgressBar) view.findViewById(R.id.anologpina4);
         pinA5 = (NumberProgressBar) view.findViewById(R.id.anologpina5);
-
-
-        //((Selector) getActivity()).writeDataRes("3,0,0R", true);
 
         return view;
     }
@@ -71,8 +68,7 @@ public class AnalogControlFragment extends Fragment {
     public void onStop() {
         super.onStop();
         anolgfragment = false;
-        //t.stop();
-        //timer.cancel();
+
 
     }
 
@@ -80,30 +76,29 @@ public class AnalogControlFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         anolgfragment = false;
-        //            t.stop();
-        //       timer.cancel();
+
     }
 
     public void splitdata(final ArrayList<String> arraydata) {
-        //"A0:234\r\n\n41 30 3A 32 34 33 0D 0A"
-        System.out.println("====arrayListara   size====" + arraydata.size());
-
-        try {
+      
             Thread t = new Thread(new Runnable() {
                 public void run() {
                     for (int i = 0; i < arraydata.size(); i++) {
-                        String data[] = arraydata.get(i).split("\r");
-                        String subspit[] = data[0].split(":");
-                        demo.put(subspit[0].toString(), Integer.parseInt(subspit[1]));
-                        subspit = null;
-                        data = null;
+                        try {
+                            String subspit[] = arraydata.get(i).split(":");
+                            demo.put(subspit[0].toString(), Integer.parseInt(subspit[1]));
+                            subspit = null;
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        //data = null;
                     }
 
                     arraydata.clear();
                     uiUpdate(demo);
                     try {
 
-                        Thread.sleep(1500);
+                        Thread.sleep(1000);
                         ((Selector) getActivity()).writeDataRes("3,0,0R", true);
 
                     } catch (InterruptedException ex) {
@@ -115,13 +110,10 @@ public class AnalogControlFragment extends Fragment {
                 }
             });
             t.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void uiUpdate(final HashMap<String, Integer> valueSet) {
-        System.out.println("====valueSet   size====" + valueSet.size());
+
         if (!valueSet.isEmpty()) {
             Selector.activity.runOnUiThread(new Runnable() {
                 @Override

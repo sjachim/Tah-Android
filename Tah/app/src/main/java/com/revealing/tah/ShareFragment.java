@@ -39,7 +39,7 @@ import util.Utils;
 public class ShareFragment extends Fragment {
     Button btnFbShare, btnTwShare;
     private Facebook mFacebook;
-    public static String facebook_mAPP_ID = "930053103723636";
+    public static String facebook_mAPP_ID = "823848531035527";
     private static final String APP_ID = facebook_mAPP_ID;
     private Facebook mFb;
     private String[] mPermissions;
@@ -222,16 +222,9 @@ public class ShareFragment extends Fragment {
 
         try {
             Bundle params = new Bundle();
-//            params.putString("name",caption);
-//            params.putString("caption", "Tah");
-//            params.putString("link", link);
-
-
-
             params.putString("message", "Tah");
             params.putString("description", "You should check out Tah, the Arduino-compatible BLE development board:http://www.tah.io");
             params.putString("link", "http://www.tah.io");
-            //   params.putString("picture", imagelink);
 
             mFacebook.dialog(Selector.activity, "feed", params, new Facebook.DialogListener() {
 
@@ -248,7 +241,7 @@ public class ShareFragment extends Fragment {
 
                 @Override
                 public void onComplete(Bundle arg0) {
-                    Toast.makeText(Selector.activity, "share on fb", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Selector.activity, "Shared on facebook...", Toast.LENGTH_SHORT).show();
                     //Display your message on share scuccessful
                     try {
                         //mProgress.dismiss();
