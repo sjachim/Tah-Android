@@ -147,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         super.onBackPressed();
 //logout from fb
-        Facebook facebook = new Facebook("xxxxxxx");
+        Facebook facebook = new Facebook("823848531035527");
         try {
             facebook.logout(getApplicationContext());
             SessionStore.clear(getApplicationContext());

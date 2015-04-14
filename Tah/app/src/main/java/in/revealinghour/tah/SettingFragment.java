@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import util.PreferenceHelper;
+
 /**
  * Created by shail on 29/03/15.
  */
@@ -29,6 +31,7 @@ public class SettingFragment extends Fragment {
         tgOpenSecure = (RadioGroup) view.findViewById(R.id.radioSex);
         edtPassword = (EditText) view.findViewById(R.id.edtdevicepass);
         edtDeviceName = (EditText) view.findViewById(R.id.edtdvicenam);
+        edtDeviceName.setText(PreferenceHelper.getTahName(Selector.activity).toString());
         edtPassword.setEnabled(false);
 
         tgOpenSecure.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

@@ -39,7 +39,7 @@ import util.Utils;
 public class ShareFragment extends Fragment {
     Button btnFbShare, btnTwShare;
     private Facebook mFacebook;
-    public static String facebook_mAPP_ID = "xxxxxxx";
+    public static String facebook_mAPP_ID = "823848531035527";
     private static final String APP_ID = facebook_mAPP_ID;
     private Facebook mFb;
     private String[] mPermissions;
@@ -223,8 +223,8 @@ public class ShareFragment extends Fragment {
         try {
             Bundle params = new Bundle();
             params.putString("message", "Tah");
-            params.putString("description", "You should check out Tah, the Arduino-compatible BLE development board:http://www.tah.io");
-            params.putString("link", "http://www.tah.io");
+            params.putString("description", "Check out Tah, the Arduino-compatible BLE development board: https://play.google.com/store/apps/details?id=in.revealinghour.tah");
+            params.putString("link", "https://play.google.com/store/apps/details?id=in.revealinghour.tah");
 
             mFacebook.dialog(Selector.activity, "feed", params, new Facebook.DialogListener() {
 
@@ -302,7 +302,7 @@ public class ShareFragment extends Fragment {
     //share on twitter
     public void shareTwitter() {
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
-        tweetIntent.putExtra(Intent.EXTRA_TEXT, "You should check out Tah, the Arduino-compatible BLE development board: http://www.tah.io");
+        tweetIntent.putExtra(Intent.EXTRA_TEXT, "Check out Tah, the Arduino-compatible BLE development board: https://play.google.com/store/apps/details?id=in.revealinghour.tah");
         tweetIntent.setType("text/plain");
 
         PackageManager packManager = Selector.activity.getPackageManager();
@@ -322,7 +322,7 @@ public class ShareFragment extends Fragment {
             startActivity(tweetIntent);
         } else {
             Intent i = new Intent();
-            i.putExtra(Intent.EXTRA_TEXT, "You should check out Tah, the Arduino-compatible BLE development board: http://www.tah.io");
+            i.putExtra(Intent.EXTRA_TEXT, "Check out Tah, the Arduino-compatible BLE development board: https://play.google.com/store/apps/details?id=in.revealinghour.tah");
             i.setAction(Intent.ACTION_VIEW);
             i.setData(Uri.parse("https://twitter.com/intent/tweet?text=message&via=profileName"));
             startActivity(i);
