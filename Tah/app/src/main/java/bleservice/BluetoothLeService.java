@@ -22,7 +22,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
@@ -34,6 +33,8 @@ import android.util.Log;
 
 import java.util.List;
 import java.util.UUID;
+
+import util.Constant;
 
 /**
  * Service for managing connection and data communication with a GATT server hosted on a
@@ -63,8 +64,6 @@ public class BluetoothLeService extends Service {
     public final static String EXTRA_DATA =
             "com.example.bluetooth.le.EXTRA_DATA";
 
-    public final static UUID UUID_HEART_RATE_MEASUREMENT =
-            UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
     public static boolean sleepWakeup = false;
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
@@ -131,26 +130,9 @@ public class BluetoothLeService extends Service {
                                  final BluetoothGattCharacteristic characteristic) {
         final Intent intent = new Intent(action);
 
-        // This is special handling for the Heart Rate Measurement profile.  Data parsing is
-        // carried out as per profile specifications:
-        // http://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml
-        if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
-            int flag = characteristic.getProperties();
-            int format = -1;
-            if ((flag & 0x01) != 0) {
-                format = BluetoothGattCharacteristic.FORMAT_UINT16;
-                Log.d(TAG, "Heart rate format UINT16.");
-            } else {
-                format = BluetoothGattCharacteristic.FORMAT_UINT8;
-                Log.d(TAG, "Heart rate format UINT8.");
-            }
-            final int heartRate = characteristic.getIntValue(format, 1);
-            Log.d(TAG, String.format("Received heart rate: %d", heartRate));
-            intent.putExtra(EXTRA_DATA, String.valueOf(heartRate));
-        } else {
-            // For all other profiles, writes the data formatted in HEX.
-            //.getvalue get all values including raw value also like hex value of string
-            //its better user .getstringvalue
+        // For all other profiles, writes the data formatted in HEX.
+        //.getvalue get all values including raw value also like hex value of string
+        //its better user .getstringvalue
 
 //            //old logic
 //            final byte[] data = characteristic.getValue();
@@ -161,10 +143,10 @@ public class BluetoothLeService extends Service {
 //                intent.putExtra(EXTRA_DATA, new String(data) + "\n" + stringBuilder.toString());
 //            }
 
-            //using get string value
-            String strdata=characteristic.getStringValue(0);
-            intent.putExtra(EXTRA_DATA, new String(strdata));
-        }
+        //using get string value
+        String strdata = characteristic.getStringValue(0);
+        intent.putExtra(EXTRA_DATA, new String(strdata));
+
         sendBroadcast(intent);
     }
 
@@ -302,10 +284,37 @@ public class BluetoothLeService extends Service {
         mBluetoothGatt.readCharacteristic(characteristic);
     }
 
-    /**
-     * new method to write data mar 9 2015 *
-     */
 
+    /**
+     * Enables or disables notification on a give characteristic.
+     *
+     * @param characteristic Characteristic to act on.
+     * @param enabled        If true, enable notification.  False otherwise.
+     */
+    public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
+                                              boolean enabled) {
+        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
+            Log.w(TAG, "BluetoothAdapter not initialized");
+            return;
+        }
+        mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
+    }
+
+    /**
+     * Retrieves a list of supported GATT services on the connected device. This should be
+     * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.
+     *
+     * @return A {@code List} of supported services.
+     */
+    public List<BluetoothGattService> getSupportedGattServices() {
+        if (mBluetoothGatt == null) return null;
+
+        return mBluetoothGatt.getServices();
+    }
+
+////////////////////////////////////////////////////////////////////
+
+    // write data without notification
     public boolean writeCharacteristic(String servicuid, String characteruid, String data) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
@@ -321,6 +330,7 @@ public class BluetoothLeService extends Service {
 
     }
 
+    // same write method with notification on
     public boolean writeCharacteristicWithRes(String servicuid, String characteruid, String data, boolean notification) {
         if (mBluetoothAdapter == null || mBluetoothGatt == null) {
             Log.w(TAG, "BluetoothAdapter not initialized");
@@ -336,39 +346,58 @@ public class BluetoothLeService extends Service {
 
     }
 
-
-    /**
-     * Enables or disables notification on a give characteristic.
-     *
-     * @param characteristic Characteristic to act on.
-     * @param enabled        If true, enable notification.  False otherwise.
-     */
-    public void setCharacteristicNotification(BluetoothGattCharacteristic characteristic,
-                                              boolean enabled) {
-        if (mBluetoothAdapter == null || mBluetoothGatt == null) {
-            Log.w(TAG, "BluetoothAdapter not initialized");
-            return;
+    //Tah digital write
+    public boolean TahDigitalWrite(int Pin, int Value, boolean Notification) {
+        try {
+            String str1 = "0," + Pin + "," + Value + "R";
+            BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(Constant.ServiceUid));
+            BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(UUID.fromString(Constant.CharaUid));
+            if (Notification) {
+                mBluetoothGatt.setCharacteristicNotification(characteristic, Notification);
+            }
+            characteristic.setValue(str1);
+            return mBluetoothGatt.writeCharacteristic(characteristic);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        mBluetoothGatt.setCharacteristicNotification(characteristic, enabled);
 
-        // This is specific to Heart Rate Measurement.
-        if (UUID_HEART_RATE_MEASUREMENT.equals(characteristic.getUuid())) {
-            BluetoothGattDescriptor descriptor = characteristic.getDescriptor(
-                    UUID.fromString(SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
-            descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-            mBluetoothGatt.writeDescriptor(descriptor);
-        }
     }
 
-    /**
-     * Retrieves a list of supported GATT services on the connected device. This should be
-     * invoked only after {@code BluetoothGatt#discoverServices()} completes successfully.
-     *
-     * @return A {@code List} of supported services.
-     */
-    public List<BluetoothGattService> getSupportedGattServices() {
-        if (mBluetoothGatt == null) return null;
+    //Tah Analog  write
+    public boolean TahAnalogWrite(int Pin, int Value , boolean Notification) {
+        try {
+            String str1 = "1," + Pin + "," + Value + "R";
+            BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(Constant.ServiceUid));
+            BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(UUID.fromString(Constant.CharaUid));
+            if (Notification) {
+                mBluetoothGatt.setCharacteristicNotification(characteristic, Notification);
+            }
+            characteristic.setValue(str1);
+            return mBluetoothGatt.writeCharacteristic(characteristic);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
 
-        return mBluetoothGatt.getServices();
     }
+
+    //Tah servo  write
+    public boolean TahServoWrite(int Pin, int Value ,boolean Notification) {
+        try {
+            String str1 = "2," + Pin + "," + Value + "R";
+            BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(UUID.fromString(Constant.ServiceUid));
+            BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(UUID.fromString(Constant.CharaUid));
+            if (Notification) {
+                mBluetoothGatt.setCharacteristicNotification(characteristic, Notification);
+            }
+            characteristic.setValue(str1);
+            return mBluetoothGatt.writeCharacteristic(characteristic);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
 }
